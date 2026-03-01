@@ -6,11 +6,13 @@ import SidebarProfessional from "@/components/templates/SidebarProfessional";
 import CreativeAccent from "@/components/templates/CreativeAccent";
 import { motion } from "framer-motion";
 import { FileText, Sparkles } from "lucide-react";
+import SimpleModel from "@/components/templates/Crown";
 
 const templates: { id: TemplateName; name: string; description: string; Component: React.FC<{ data: typeof sampleResumeData }> }[] = [
   { id: "modern-minimal", name: "Modern Minimal", description: "Clean, elegant, typography-focused", Component: ModernMinimal },
   { id: "sidebar-professional", name: "Sidebar Professional", description: "Structured sidebar with bold separation", Component: SidebarProfessional },
   { id: "creative-accent", name: "Creative Accent", description: "Bold accents, modern & dynamic", Component: CreativeAccent },
+  { id: "simple-accent", name: "Simple Accent", description: "Clean, bold accent styling", Component: SimpleModel },
 ];
 
 const Index = () => {

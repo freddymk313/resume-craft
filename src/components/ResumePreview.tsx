@@ -2,6 +2,7 @@ import { ResumeData, TemplateName } from "@/utils/resumeTypes";
 import ModernMinimal from "./templates/ModernMinimal";
 import SidebarProfessional from "./templates/SidebarProfessional";
 import CreativeAccent from "./templates/CreativeAccent";
+import SimpleModel from "./templates/Crown";
 
 interface Props {
   data: ResumeData;
@@ -13,6 +14,7 @@ const ResumePreview = ({ data, template }: Props) => {
     "modern-minimal": ModernMinimal,
     "sidebar-professional": SidebarProfessional,
     "creative-accent": CreativeAccent,
+    "simple-accent": SimpleModel, 
   }[template];
 
   return (
