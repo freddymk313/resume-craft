@@ -1,19 +1,40 @@
 import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { generatePDF } from "@/utils/generatePDF";
 import { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
+import { ResumeData, TemplateName } from "@/utils/resumeTypes";
+import ModernMinimalPDF from "./pdf-templates/ModernMinimalPDF";
+import SidebarProfessionalPDF from "./pdf-templates/SidebarProfessionalPDF";
+import CreativeAccentPDF from "./pdf-templates/CreativeAccentPDF";
 
 interface Props {
   fileName?: string;
+  data: ResumeData;
+  template: TemplateName;
 }
 
-const DownloadButton = ({ fileName = "resume.pdf" }: Props) => {
+const pdfComponents = {
+  "modern-minimal": ModernMinimalPDF,
+  "sidebar-professional": SidebarProfessionalPDF,
+  "creative-accent": CreativeAccentPDF,
+};
+
+const DownloadButton = ({ fileName = "resume.pdf", data, template }: Props) => {
   const [loading, setLoading] = useState(false);
 
   const handleDownload = async () => {
     setLoading(true);
     try {
-      await generatePDF("resume-preview", fileName);
+      const PDFComponent = pdfComponents[template];
+      const blob = await pdf(<PDFComponent data={data} />).toBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     } catch (e) {
       console.error("PDF generation failed", e);
     } finally {
