@@ -1,5 +1,6 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import { ResumeData } from "@/utils/resumeTypes";
+import { PdfEmailIcon, PdfPhoneIcon, PdfLocationIcon, PdfWebsiteIcon, PdfLinkedinIcon } from "./PdfIcons";
 
 const navy = "#1a2e50";
 
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
   jobTitle: { fontSize: 10, color: "#ffffff", opacity: 0.7, marginBottom: 20 },
   sidebarSection: { marginBottom: 16 },
   sidebarTitle: { fontSize: 7, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 3, color: "#ffffff", opacity: 0.5, marginBottom: 8 },
-  contactItem: { fontSize: 8, color: "#ffffff", opacity: 0.8, marginBottom: 5 },
+  contactItem: { fontSize: 8, color: "#ffffff", opacity: 0.8, marginBottom: 5, flexDirection: "row", alignItems: "center", gap: 4 },
   skillItem: { fontSize: 8, color: "#ffffff", opacity: 0.8, marginBottom: 4, paddingLeft: 8 },
   skillDot: { position: "absolute", left: 0, top: 3, width: 3, height: 3, borderRadius: 1.5, backgroundColor: "#ffffff", opacity: 0.4 },
   sidebarSmall: { fontSize: 8, color: "#ffffff", opacity: 0.8, lineHeight: 1.5 },
@@ -46,11 +47,11 @@ const SidebarProfessionalPDF = ({ data }: Props) => {
 
           <View style={styles.sidebarSection}>
             <Text style={styles.sidebarTitle}>Contact</Text>
-            {personalInfo.email && <Text style={styles.contactItem}>{personalInfo.email}</Text>}
-            {personalInfo.phone && <Text style={styles.contactItem}>{personalInfo.phone}</Text>}
-            {personalInfo.location && <Text style={styles.contactItem}>{personalInfo.location}</Text>}
-            {personalInfo.website && <Text style={styles.contactItem}>{personalInfo.website}</Text>}
-            {personalInfo.linkedin && <Text style={styles.contactItem}>{personalInfo.linkedin}</Text>}
+            {personalInfo.email && <View style={styles.contactItem}><PdfEmailIcon size={8} color="#ffffff" /><Text style={{ fontSize: 8, color: "#ffffff", opacity: 0.8 }}>{personalInfo.email}</Text></View>}
+            {personalInfo.phone && <View style={styles.contactItem}><PdfPhoneIcon size={8} color="#ffffff" /><Text style={{ fontSize: 8, color: "#ffffff", opacity: 0.8 }}>{personalInfo.phone}</Text></View>}
+            {personalInfo.location && <View style={styles.contactItem}><PdfLocationIcon size={8} color="#ffffff" /><Text style={{ fontSize: 8, color: "#ffffff", opacity: 0.8 }}>{personalInfo.location}</Text></View>}
+            {personalInfo.website && <View style={styles.contactItem}><PdfWebsiteIcon size={8} color="#ffffff" /><Text style={{ fontSize: 8, color: "#ffffff", opacity: 0.8 }}>{personalInfo.website}</Text></View>}
+            {personalInfo.linkedin && <View style={styles.contactItem}><PdfLinkedinIcon size={8} color="#ffffff" /><Text style={{ fontSize: 8, color: "#ffffff", opacity: 0.8 }}>{personalInfo.linkedin}</Text></View>}
           </View>
 
           {skillsList.length > 0 ? (

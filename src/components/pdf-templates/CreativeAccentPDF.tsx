@@ -1,5 +1,6 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import { ResumeData } from "@/utils/resumeTypes";
+import { PdfEmailIcon, PdfPhoneIcon, PdfLocationIcon, PdfWebsiteIcon, PdfLinkedinIcon } from "./PdfIcons";
 
 const accent = "#e07548";
 
@@ -9,7 +10,7 @@ const styles = StyleSheet.create({
   name: { fontSize: 28, fontFamily: "Helvetica-Bold", color: accent, letterSpacing: -0.5 },
   jobTitle: { fontSize: 12, color: "#374151", fontFamily: "Helvetica-Bold", marginTop: 2 },
   contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 8 },
-  contactItem: { fontSize: 8, color: "#6b7280" },
+  contactItem: { fontSize: 8, color: "#6b7280", flexDirection: "row", alignItems: "center", gap: 4 },
   accentBar: { width: 48, height: 3, backgroundColor: accent, borderRadius: 2, marginBottom: 16 },
   sectionTitle: { fontSize: 10, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 1, color: accent, marginBottom: 8 },
   sectionBlock: { marginBottom: 16 },
@@ -44,11 +45,11 @@ const CreativeAccentPDF = ({ data }: Props) => {
           <Text style={styles.name}>{personalInfo.fullName || "Your Name"}</Text>
           <Text style={styles.jobTitle}>{personalInfo.jobTitle || "Job Title"}</Text>
           <View style={styles.contactRow}>
-            {personalInfo.email && <Text style={styles.contactItem}>{personalInfo.email}</Text>}
-            {personalInfo.phone && <Text style={styles.contactItem}>{personalInfo.phone}</Text>}
-            {personalInfo.location && <Text style={styles.contactItem}>{personalInfo.location}</Text>}
-            {personalInfo.website && <Text style={styles.contactItem}>{personalInfo.website}</Text>}
-            {personalInfo.linkedin && <Text style={styles.contactItem}>{personalInfo.linkedin}</Text>}
+            {personalInfo.email && <View style={styles.contactItem}><PdfEmailIcon size={8} /><Text style={{ fontSize: 8, color: "#6b7280" }}>{personalInfo.email}</Text></View>}
+            {personalInfo.phone && <View style={styles.contactItem}><PdfPhoneIcon size={8} /><Text style={{ fontSize: 8, color: "#6b7280" }}>{personalInfo.phone}</Text></View>}
+            {personalInfo.location && <View style={styles.contactItem}><PdfLocationIcon size={8} /><Text style={{ fontSize: 8, color: "#6b7280" }}>{personalInfo.location}</Text></View>}
+            {personalInfo.website && <View style={styles.contactItem}><PdfWebsiteIcon size={8} /><Text style={{ fontSize: 8, color: "#6b7280" }}>{personalInfo.website}</Text></View>}
+            {personalInfo.linkedin && <View style={styles.contactItem}><PdfLinkedinIcon size={8} /><Text style={{ fontSize: 8, color: "#6b7280" }}>{personalInfo.linkedin}</Text></View>}
           </View>
         </View>
 
