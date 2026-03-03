@@ -1,35 +1,37 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import { ResumeData } from "@/utils/resumeTypes";
 import { PdfEmailIcon, PdfPhoneIcon, PdfLocationIcon, PdfWebsiteIcon, PdfLinkedinIcon } from "./PdfIcons";
+import { HEADING_FONT, BODY_FONT } from "./pdfFonts";
 
 const accent = "#e07548";
-const gray600 = "#4b5563";
+const gray700 = "#374151";
+const gray500 = "#6b7280";
 const gray400 = "#9ca3af";
 
 const styles = StyleSheet.create({
-  page: { padding: 44, fontFamily: "Helvetica", fontSize: 11, color: "#1f2937" },
-  header: { marginBottom: 18 },
-  name: { fontSize: 30, fontFamily: "Helvetica-Bold", color: accent, letterSpacing: -0.5 },
-  jobTitle: { fontSize: 14, color: "#374151", fontFamily: "Helvetica-Bold", marginTop: 3 },
-  contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 12, marginTop: 10 },
-  contactItem: { fontSize: 9, color: "#6b7280", flexDirection: "row", alignItems: "center", gap: 5 },
-  accentBar: { width: 52, height: 3, backgroundColor: accent, borderRadius: 2, marginBottom: 22 },
-  sectionTitle: { fontSize: 12, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 1.5, color: accent, marginBottom: 10 },
-  sectionBlock: { marginBottom: 22 },
-  summaryText: { fontSize: 10.5, color: gray600, lineHeight: 1.55 },
-  expItem: { marginBottom: 14, paddingLeft: 12, borderLeftWidth: 2, borderLeftColor: accent },
-  expPosition: { fontSize: 12, fontFamily: "Helvetica-Bold", color: "#1f2937" },
+  page: { padding: 44, fontFamily: BODY_FONT, fontSize: 12, color: "#1f2937" },
+  header: { marginBottom: 20 },
+  name: { fontSize: 32, fontFamily: HEADING_FONT, fontWeight: 700, color: accent, letterSpacing: -0.5 },
+  jobTitle: { fontSize: 16, color: gray700, fontFamily: HEADING_FONT, fontWeight: 600, marginTop: 4 },
+  contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 14, marginTop: 12 },
+  contactItem: { fontSize: 10, color: gray500, flexDirection: "row", alignItems: "center", gap: 5 },
+  accentBar: { width: 52, height: 3, backgroundColor: accent, borderRadius: 2, marginBottom: 26 },
+  sectionTitle: { fontSize: 14, fontFamily: HEADING_FONT, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, color: accent, marginBottom: 12 },
+  sectionBlock: { marginBottom: 26 },
+  summaryText: { fontSize: 11.5, color: gray700, lineHeight: 1.6 },
+  expItem: { marginBottom: 18, paddingLeft: 12, borderLeftWidth: 2, borderLeftColor: accent },
+  expPosition: { fontSize: 14, fontFamily: HEADING_FONT, fontWeight: 700, color: "#1f2937" },
   expRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 2 },
-  expCompany: { fontSize: 9.5, color: "#6b7280", fontFamily: "Helvetica-Bold" },
-  expDate: { fontSize: 8.5, color: gray400 },
-  bulletRow: { flexDirection: "row", paddingLeft: 8, marginTop: 3 },
-  bulletDot: { fontSize: 10, color: accent, marginRight: 6 },
-  bulletText: { fontSize: 10, color: gray600, flex: 1, lineHeight: 1.5 },
-  skillsRow: { flexDirection: "row", flexWrap: "wrap", gap: 5 },
-  skillBadge: { fontSize: 9, backgroundColor: accent, color: "#ffffff", paddingHorizontal: 11, paddingVertical: 4, borderRadius: 10 },
+  expCompany: { fontSize: 11, color: gray500, fontWeight: 600 },
+  expDate: { fontSize: 10, color: gray400 },
+  bulletRow: { flexDirection: "row", paddingLeft: 8, marginTop: 4 },
+  bulletDot: { fontSize: 11, color: accent, marginRight: 6 },
+  bulletText: { fontSize: 11.5, color: gray700, flex: 1, lineHeight: 1.55 },
+  skillsRow: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
+  skillBadge: { fontSize: 10, backgroundColor: accent, color: "#ffffff", paddingHorizontal: 12, paddingVertical: 5, borderRadius: 10 },
   twoCol: { flexDirection: "row", gap: 28 },
   colHalf: { flex: 1 },
-  smallText: { fontSize: 10, color: gray600, lineHeight: 1.5 },
+  smallText: { fontSize: 11, color: gray700, lineHeight: 1.55 },
 });
 
 interface Props { data: ResumeData }
@@ -87,7 +89,7 @@ const CreativeAccentPDF = ({ data }: Props) => {
           <View style={styles.sectionBlock}>
             <Text style={styles.sectionTitle}>Education</Text>
             {education.map((edu) => (
-              <View key={edu.id} style={{ ...styles.expItem, marginBottom: 10 }} wrap={false}>
+              <View key={edu.id} style={{ ...styles.expItem, marginBottom: 12 }} wrap={false}>
                 <Text style={styles.expPosition}>{edu.degree}</Text>
                 <View style={styles.expRow}>
                   <Text style={styles.expCompany}>{edu.school}{edu.location ? ` · ${edu.location}` : ""}</Text>
