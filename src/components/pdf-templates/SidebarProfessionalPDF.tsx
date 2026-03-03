@@ -1,32 +1,33 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import { ResumeData } from "@/utils/resumeTypes";
 import { PdfEmailIcon, PdfPhoneIcon, PdfLocationIcon, PdfWebsiteIcon, PdfLinkedinIcon } from "./PdfIcons";
+import { HEADING_FONT, BODY_FONT } from "./pdfFonts";
 
 const navy = "#1a2e50";
 
 const styles = StyleSheet.create({
-  page: { flexDirection: "row", fontFamily: "Helvetica", fontSize: 11 },
+  page: { flexDirection: "row", fontFamily: BODY_FONT, fontSize: 12 },
   sidebar: { width: "35%", backgroundColor: navy, padding: 28, color: "#ffffff" },
   main: { width: "65%", padding: 36 },
-  name: { fontSize: 20, fontFamily: "Helvetica-Bold", color: "#ffffff", marginBottom: 3 },
-  jobTitle: { fontSize: 11, color: "#ffffff", opacity: 0.7, marginBottom: 24 },
-  sidebarSection: { marginBottom: 20 },
-  sidebarTitle: { fontSize: 9, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 3, color: "#ffffff", opacity: 0.5, marginBottom: 10 },
-  contactItem: { fontSize: 9, color: "#ffffff", opacity: 0.85, marginBottom: 7, flexDirection: "row", alignItems: "center", gap: 5 },
-  skillItem: { fontSize: 9, color: "#ffffff", opacity: 0.85, marginBottom: 5, paddingLeft: 10 },
-  skillDot: { position: "absolute", left: 0, top: 4, width: 4, height: 4, borderRadius: 2, backgroundColor: "#ffffff", opacity: 0.4 },
-  sidebarSmall: { fontSize: 9.5, color: "#ffffff", opacity: 0.85, lineHeight: 1.5 },
-  mainSection: { marginBottom: 22 },
-  sectionTitle: { fontSize: 11, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 3, color: "#9ca3af", marginBottom: 10 },
-  summaryText: { fontSize: 10.5, color: "#4b5563", lineHeight: 1.55 },
-  expItem: { marginBottom: 14 },
+  name: { fontSize: 22, fontFamily: HEADING_FONT, fontWeight: 700, color: "#ffffff", marginBottom: 4 },
+  jobTitle: { fontSize: 12, color: "#ffffff", opacity: 0.7, marginBottom: 28, fontFamily: HEADING_FONT },
+  sidebarSection: { marginBottom: 24 },
+  sidebarTitle: { fontSize: 10, fontFamily: HEADING_FONT, fontWeight: 700, textTransform: "uppercase", letterSpacing: 3, color: "#ffffff", opacity: 0.5, marginBottom: 12 },
+  contactItem: { fontSize: 10, color: "#ffffff", opacity: 0.85, marginBottom: 8, flexDirection: "row", alignItems: "center", gap: 5 },
+  skillItem: { fontSize: 10, color: "#ffffff", opacity: 0.85, marginBottom: 6, paddingLeft: 10 },
+  skillDot: { position: "absolute", left: 0, top: 5, width: 4, height: 4, borderRadius: 2, backgroundColor: "#ffffff", opacity: 0.4 },
+  sidebarSmall: { fontSize: 10.5, color: "#ffffff", opacity: 0.85, lineHeight: 1.55 },
+  mainSection: { marginBottom: 26 },
+  sectionTitle: { fontSize: 14, fontFamily: HEADING_FONT, fontWeight: 700, textTransform: "uppercase", letterSpacing: 3, color: "#9ca3af", marginBottom: 12 },
+  summaryText: { fontSize: 11.5, color: "#374151", lineHeight: 1.6 },
+  expItem: { marginBottom: 18 },
   expRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  expPosition: { fontSize: 12, fontFamily: "Helvetica-Bold", color: navy },
-  expCompany: { fontSize: 9.5, color: "#6b7280", marginTop: 2 },
-  expDate: { fontSize: 8.5, color: "#9ca3af" },
-  bulletRow: { flexDirection: "row", paddingLeft: 8, marginTop: 3 },
-  bulletDot: { fontSize: 10, color: "#d1d5db", marginRight: 6 },
-  bulletText: { fontSize: 10, color: "#4b5563", flex: 1, lineHeight: 1.5 },
+  expPosition: { fontSize: 14, fontFamily: HEADING_FONT, fontWeight: 700, color: navy },
+  expCompany: { fontSize: 11, color: "#6b7280", marginTop: 2 },
+  expDate: { fontSize: 10, color: "#9ca3af" },
+  bulletRow: { flexDirection: "row", paddingLeft: 8, marginTop: 4 },
+  bulletDot: { fontSize: 11, color: "#d1d5db", marginRight: 6 },
+  bulletText: { fontSize: 11.5, color: "#374151", flex: 1, lineHeight: 1.55 },
 });
 
 interface Props { data: ResumeData }
@@ -113,7 +114,7 @@ const SidebarProfessionalPDF = ({ data }: Props) => {
             <View style={styles.mainSection}>
               <Text style={styles.sectionTitle}>Education</Text>
               {education.map((edu) => (
-                <View key={edu.id} style={{ marginBottom: 12 }} wrap={false}>
+                <View key={edu.id} style={{ marginBottom: 14 }} wrap={false}>
                   <View style={styles.expRow}>
                     <View style={{ flex: 1 }}>
                       <Text style={styles.expPosition}>{edu.degree}</Text>

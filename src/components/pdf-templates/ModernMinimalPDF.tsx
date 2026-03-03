@@ -1,36 +1,38 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import { ResumeData } from "@/utils/resumeTypes";
 import { PdfEmailIcon, PdfPhoneIcon, PdfLocationIcon, PdfWebsiteIcon, PdfLinkedinIcon } from "./PdfIcons";
+import { HEADING_FONT, BODY_FONT } from "./pdfFonts";
 
 const navy = "#1a2e50";
-const gray600 = "#4b5563";
+const gray700 = "#374151";
+const gray500 = "#6b7280";
 const gray400 = "#9ca3af";
 const gray200 = "#e5e7eb";
 
 const styles = StyleSheet.create({
-  page: { padding: 44, fontFamily: "Helvetica", fontSize: 11, color: "#1f2937" },
-  header: { marginBottom: 24 },
-  name: { fontSize: 28, fontWeight: "bold", color: navy, fontFamily: "Helvetica-Bold", letterSpacing: -0.5 },
-  jobTitle: { fontSize: 14, color: gray400, marginTop: 3 },
-  contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 14, marginTop: 10 },
-  contactItem: { fontSize: 9, color: gray600, flexDirection: "row", alignItems: "center", gap: 5 },
-  divider: { height: 1, backgroundColor: gray200, marginBottom: 22 },
-  sectionTitle: { fontSize: 11, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 3, color: gray400, marginBottom: 10 },
-  sectionBlock: { marginBottom: 22 },
-  summaryText: { fontSize: 10.5, color: gray600, lineHeight: 1.55 },
+  page: { padding: 44, fontFamily: BODY_FONT, fontSize: 12, color: "#1f2937" },
+  header: { marginBottom: 30 },
+  name: { fontSize: 32, fontWeight: 700, color: navy, fontFamily: HEADING_FONT, letterSpacing: -0.5 },
+  jobTitle: { fontSize: 16, color: gray400, marginTop: 4, fontFamily: HEADING_FONT, fontWeight: 400 },
+  contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 16, marginTop: 12 },
+  contactItem: { fontSize: 10, color: gray500, flexDirection: "row", alignItems: "center", gap: 5 },
+  divider: { height: 1, backgroundColor: gray200, marginBottom: 26 },
+  sectionTitle: { fontSize: 14, fontFamily: HEADING_FONT, fontWeight: 700, textTransform: "uppercase", letterSpacing: 3, color: gray400, marginBottom: 12 },
+  sectionBlock: { marginBottom: 26 },
+  summaryText: { fontSize: 11.5, color: gray700, lineHeight: 1.6 },
   expHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  expPosition: { fontSize: 12, fontFamily: "Helvetica-Bold", color: navy },
-  expCompany: { fontSize: 10, color: gray600, marginTop: 2 },
-  expDate: { fontSize: 9, color: gray400 },
-  expItem: { marginBottom: 14 },
-  bulletRow: { flexDirection: "row", paddingLeft: 8, marginTop: 3 },
-  bulletDot: { fontSize: 10, color: gray200, marginRight: 6, marginTop: 0 },
-  bulletText: { fontSize: 10, color: gray600, flex: 1, lineHeight: 1.5 },
-  skillsRow: { flexDirection: "row", flexWrap: "wrap", gap: 5 },
-  skillBadge: { fontSize: 9, backgroundColor: "#f3f4f6", color: gray600, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10 },
+  expPosition: { fontSize: 14, fontFamily: HEADING_FONT, fontWeight: 700, color: navy },
+  expCompany: { fontSize: 11, color: gray500, marginTop: 2 },
+  expDate: { fontSize: 10, color: gray400 },
+  expItem: { marginBottom: 18 },
+  bulletRow: { flexDirection: "row", paddingLeft: 8, marginTop: 4 },
+  bulletDot: { fontSize: 11, color: gray200, marginRight: 6, marginTop: 0 },
+  bulletText: { fontSize: 11.5, color: gray700, flex: 1, lineHeight: 1.55 },
+  skillsRow: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
+  skillBadge: { fontSize: 10, backgroundColor: "#f3f4f6", color: gray500, paddingHorizontal: 12, paddingVertical: 5, borderRadius: 10 },
   twoCol: { flexDirection: "row", gap: 28 },
   colHalf: { flex: 1 },
-  smallText: { fontSize: 10, color: gray600, lineHeight: 1.5 },
+  smallText: { fontSize: 11, color: gray700, lineHeight: 1.55 },
 });
 
 interface Props { data: ResumeData }
@@ -90,7 +92,7 @@ const ModernMinimalPDF = ({ data }: Props) => {
           <View style={styles.sectionBlock}>
             <Text style={styles.sectionTitle}>Education</Text>
             {education.map((edu) => (
-              <View key={edu.id} style={{ marginBottom: 12 }} wrap={false}>
+              <View key={edu.id} style={{ marginBottom: 14 }} wrap={false}>
                 <View style={styles.expHeader}>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.expPosition}>{edu.degree}</Text>
