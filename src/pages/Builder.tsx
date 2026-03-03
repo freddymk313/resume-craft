@@ -29,6 +29,7 @@ const Builder = () => {
     { id: "sidebar-professional", label: "Sidebar" },
     { id: "creative-accent", label: "Creative" },
     { id: "simple-accent", label: "Simple" },
+    { id: "classic-bordered", label: "Classic" },
   ];
 
   return (

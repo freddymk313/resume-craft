@@ -3,6 +3,7 @@ import ModernMinimal from "./templates/ModernMinimal";
 import SidebarProfessional from "./templates/SidebarProfessional";
 import CreativeAccent from "./templates/CreativeAccent";
 import SimpleModel from "./templates/Crown";
+import ClassicBordered from "./templates/ClassicBordered";
 
 interface Props {
   data: ResumeData;
@@ -14,7 +15,8 @@ const ResumePreview = ({ data, template }: Props) => {
     "modern-minimal": ModernMinimal,
     "sidebar-professional": SidebarProfessional,
     "creative-accent": CreativeAccent,
-    "simple-accent": SimpleModel, 
+    "simple-accent": SimpleModel,
+    "classic-bordered": ClassicBordered,
   }[template];
 
   return (

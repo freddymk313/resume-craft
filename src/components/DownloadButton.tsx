@@ -6,6 +6,7 @@ import { ResumeData, TemplateName } from "@/utils/resumeTypes";
 import ModernMinimalPDF from "./pdf-templates/ModernMinimalPDF";
 import SidebarProfessionalPDF from "./pdf-templates/SidebarProfessionalPDF";
 import CreativeAccentPDF from "./pdf-templates/CreativeAccentPDF";
+import ClassicBorderedPDF from "./pdf-templates/ClassicBorderedPDF";
 
 interface Props {
   fileName?: string;
@@ -13,10 +14,11 @@ interface Props {
   template: TemplateName;
 }
 
-const pdfComponents = {
+const pdfComponents: Record<string, React.FC<{ data: ResumeData }>> = {
   "modern-minimal": ModernMinimalPDF,
   "sidebar-professional": SidebarProfessionalPDF,
   "creative-accent": CreativeAccentPDF,
+  "classic-bordered": ClassicBorderedPDF,
 };
 
 const DownloadButton = ({ fileName = "resume.pdf", data, template }: Props) => {
