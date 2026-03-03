@@ -3,36 +3,36 @@ import { ResumeData } from "@/utils/resumeTypes";
 import { PdfEmailIcon, PdfPhoneIcon, PdfLocationIcon, PdfWebsiteIcon, PdfLinkedinIcon } from "./PdfIcons";
 
 const accent = "#e07548";
+const gray600 = "#4b5563";
+const gray400 = "#9ca3af";
 
 const styles = StyleSheet.create({
-  page: { padding: 40, fontFamily: "Helvetica", fontSize: 10, color: "#1a1a1a" },
-  header: { marginBottom: 16 },
-  name: { fontSize: 28, fontFamily: "Helvetica-Bold", color: accent, letterSpacing: -0.5 },
-  jobTitle: { fontSize: 12, color: "#374151", fontFamily: "Helvetica-Bold", marginTop: 2 },
-  contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 8 },
-  contactItem: { fontSize: 8, color: "#6b7280", flexDirection: "row", alignItems: "center", gap: 4 },
-  accentBar: { width: 48, height: 3, backgroundColor: accent, borderRadius: 2, marginBottom: 16 },
-  sectionTitle: { fontSize: 10, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 1, color: accent, marginBottom: 8 },
-  sectionBlock: { marginBottom: 16 },
-  summaryText: { fontSize: 9, color: "#4b5563", lineHeight: 1.6 },
-  expItem: { marginBottom: 10, paddingLeft: 10, borderLeftWidth: 2, borderLeftColor: accent },
-  expPosition: { fontSize: 10, fontFamily: "Helvetica-Bold", color: "#1f2937" },
-  expRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 1 },
-  expCompany: { fontSize: 8, color: "#6b7280", fontFamily: "Helvetica-Bold" },
-  expDate: { fontSize: 7, color: "#9ca3af" },
-  bulletRow: { flexDirection: "row", paddingLeft: 8, marginTop: 2 },
-  bulletDot: { fontSize: 8, color: accent, marginRight: 4, marginTop: 1 },
-  bulletText: { fontSize: 8, color: "#4b5563", flex: 1, lineHeight: 1.5 },
-  skillsRow: { flexDirection: "row", flexWrap: "wrap", gap: 4 },
-  skillBadge: { fontSize: 8, backgroundColor: accent, color: "#ffffff", paddingHorizontal: 10, paddingVertical: 3, borderRadius: 10 },
-  twoCol: { flexDirection: "row", gap: 24 },
+  page: { padding: 44, fontFamily: "Helvetica", fontSize: 11, color: "#1f2937" },
+  header: { marginBottom: 18 },
+  name: { fontSize: 30, fontFamily: "Helvetica-Bold", color: accent, letterSpacing: -0.5 },
+  jobTitle: { fontSize: 14, color: "#374151", fontFamily: "Helvetica-Bold", marginTop: 3 },
+  contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 12, marginTop: 10 },
+  contactItem: { fontSize: 9, color: "#6b7280", flexDirection: "row", alignItems: "center", gap: 5 },
+  accentBar: { width: 52, height: 3, backgroundColor: accent, borderRadius: 2, marginBottom: 22 },
+  sectionTitle: { fontSize: 12, fontFamily: "Helvetica-Bold", textTransform: "uppercase", letterSpacing: 1.5, color: accent, marginBottom: 10 },
+  sectionBlock: { marginBottom: 22 },
+  summaryText: { fontSize: 10.5, color: gray600, lineHeight: 1.55 },
+  expItem: { marginBottom: 14, paddingLeft: 12, borderLeftWidth: 2, borderLeftColor: accent },
+  expPosition: { fontSize: 12, fontFamily: "Helvetica-Bold", color: "#1f2937" },
+  expRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 2 },
+  expCompany: { fontSize: 9.5, color: "#6b7280", fontFamily: "Helvetica-Bold" },
+  expDate: { fontSize: 8.5, color: gray400 },
+  bulletRow: { flexDirection: "row", paddingLeft: 8, marginTop: 3 },
+  bulletDot: { fontSize: 10, color: accent, marginRight: 6 },
+  bulletText: { fontSize: 10, color: gray600, flex: 1, lineHeight: 1.5 },
+  skillsRow: { flexDirection: "row", flexWrap: "wrap", gap: 5 },
+  skillBadge: { fontSize: 9, backgroundColor: accent, color: "#ffffff", paddingHorizontal: 11, paddingVertical: 4, borderRadius: 10 },
+  twoCol: { flexDirection: "row", gap: 28 },
   colHalf: { flex: 1 },
-  smallText: { fontSize: 8, color: "#4b5563" },
+  smallText: { fontSize: 10, color: gray600, lineHeight: 1.5 },
 });
 
-interface Props {
-  data: ResumeData;
-}
+interface Props { data: ResumeData }
 
 const CreativeAccentPDF = ({ data }: Props) => {
   const { personalInfo, summary, experience, education, skills, languages, certifications } = data;
@@ -45,11 +45,11 @@ const CreativeAccentPDF = ({ data }: Props) => {
           <Text style={styles.name}>{personalInfo.fullName || "Your Name"}</Text>
           <Text style={styles.jobTitle}>{personalInfo.jobTitle || "Job Title"}</Text>
           <View style={styles.contactRow}>
-            {personalInfo.email && <View style={styles.contactItem}><PdfEmailIcon size={8} /><Text style={{ fontSize: 8, color: "#6b7280" }}>{personalInfo.email}</Text></View>}
-            {personalInfo.phone && <View style={styles.contactItem}><PdfPhoneIcon size={8} /><Text style={{ fontSize: 8, color: "#6b7280" }}>{personalInfo.phone}</Text></View>}
-            {personalInfo.location && <View style={styles.contactItem}><PdfLocationIcon size={8} /><Text style={{ fontSize: 8, color: "#6b7280" }}>{personalInfo.location}</Text></View>}
-            {personalInfo.website && <View style={styles.contactItem}><PdfWebsiteIcon size={8} /><Text style={{ fontSize: 8, color: "#6b7280" }}>{personalInfo.website}</Text></View>}
-            {personalInfo.linkedin && <View style={styles.contactItem}><PdfLinkedinIcon size={8} /><Text style={{ fontSize: 8, color: "#6b7280" }}>{personalInfo.linkedin}</Text></View>}
+            {personalInfo.email && <View style={styles.contactItem}><PdfEmailIcon size={9} /><Text>{personalInfo.email}</Text></View>}
+            {personalInfo.phone && <View style={styles.contactItem}><PdfPhoneIcon size={9} /><Text>{personalInfo.phone}</Text></View>}
+            {personalInfo.location && <View style={styles.contactItem}><PdfLocationIcon size={9} /><Text>{personalInfo.location}</Text></View>}
+            {personalInfo.website && <View style={styles.contactItem}><PdfWebsiteIcon size={9} /><Text>{personalInfo.website}</Text></View>}
+            {personalInfo.linkedin && <View style={styles.contactItem}><PdfLinkedinIcon size={9} /><Text>{personalInfo.linkedin}</Text></View>}
           </View>
         </View>
 
@@ -69,21 +69,15 @@ const CreativeAccentPDF = ({ data }: Props) => {
               <View key={exp.id} style={styles.expItem} wrap={false}>
                 <Text style={styles.expPosition}>{exp.position}</Text>
                 <View style={styles.expRow}>
-                  <Text style={styles.expCompany}>
-                    {exp.company}{exp.location ? ` · ${exp.location}` : ""}
-                  </Text>
-                  <Text style={styles.expDate}>
-                    {exp.startDate} — {exp.currentJob ? "Present" : exp.endDate}
-                  </Text>
+                  <Text style={styles.expCompany}>{exp.company}{exp.location ? ` · ${exp.location}` : ""}</Text>
+                  <Text style={styles.expDate}>{exp.startDate} — {exp.currentJob ? "Present" : exp.endDate}</Text>
                 </View>
-                {exp.description
-                  ? exp.description.split("\n").filter(Boolean).map((line, i) => (
-                      <View key={i} style={styles.bulletRow}>
-                        <Text style={styles.bulletDot}>•</Text>
-                        <Text style={styles.bulletText}>{line}</Text>
-                      </View>
-                    ))
-                  : null}
+                {exp.description?.split("\n").filter(Boolean).map((line, i) => (
+                  <View key={i} style={styles.bulletRow}>
+                    <Text style={styles.bulletDot}>•</Text>
+                    <Text style={styles.bulletText}>{line}</Text>
+                  </View>
+                ))}
               </View>
             ))}
           </View>
@@ -93,12 +87,10 @@ const CreativeAccentPDF = ({ data }: Props) => {
           <View style={styles.sectionBlock}>
             <Text style={styles.sectionTitle}>Education</Text>
             {education.map((edu) => (
-              <View key={edu.id} style={{ ...styles.expItem, marginBottom: 8 }} wrap={false}>
+              <View key={edu.id} style={{ ...styles.expItem, marginBottom: 10 }} wrap={false}>
                 <Text style={styles.expPosition}>{edu.degree}</Text>
                 <View style={styles.expRow}>
-                  <Text style={styles.expCompany}>
-                    {edu.school}{edu.location ? ` · ${edu.location}` : ""}
-                  </Text>
+                  <Text style={styles.expCompany}>{edu.school}{edu.location ? ` · ${edu.location}` : ""}</Text>
                   <Text style={styles.expDate}>{edu.startDate} — {edu.endDate}</Text>
                 </View>
               </View>
