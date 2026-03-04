@@ -38,7 +38,7 @@ export interface ResumeData {
   certifications: string;
 }
 
-export type TemplateName = "modern-minimal" | "sidebar-professional" | "creative-accent" | "simple-accent" | "classic-bordered" | "clean-professional";
+export type TemplateName = "modern-minimal" | "sidebar-professional" | "creative-accent" | "simple-accent" | "classic-bordered" | "clean-professional" | "corporate-classic";
 
 export const defaultResumeData: ResumeData = {
   personalInfo: {

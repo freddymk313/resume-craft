@@ -5,6 +5,7 @@ import CreativeAccent from "./templates/CreativeAccent";
 import SimpleModel from "./templates/Crown";
 import ClassicBordered from "./templates/ClassicBordered";
 import CleanProfessional from "./templates/CleanProfessional";
+import CorporateClassic from "./templates/CorporateClassic";
 
 interface Props {
   data: ResumeData;
@@ -19,6 +20,7 @@ const ResumePreview = ({ data, template }: Props) => {
     "simple-accent": SimpleModel,
     "classic-bordered": ClassicBordered,
     "clean-professional": CleanProfessional,
+    "corporate-classic": CorporateClassic,
   }[template];
 
   return (
