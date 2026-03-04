@@ -9,6 +9,7 @@ import { FileText, Sparkles } from "lucide-react";
 import SimpleModel from "@/components/templates/Crown";
 import ClassicBordered from "@/components/templates/ClassicBordered";
 import CleanProfessional from "@/components/templates/CleanProfessional";
+import CorporateClassic from "@/components/templates/CorporateClassic";
 
 const templates: { id: TemplateName; name: string; description: string; Component: React.FC<{ data: typeof sampleResumeData }> }[] = [
   { id: "modern-minimal", name: "Modern Minimal", description: "Clean, elegant, typography-focused", Component: ModernMinimal },
@@ -17,6 +18,7 @@ const templates: { id: TemplateName; name: string; description: string; Componen
   { id: "simple-accent", name: "Simple Accent", description: "Clean, bold accent styling", Component: SimpleModel },
   { id: "classic-bordered", name: "Classic Bordered", description: "Traditional print-style with border frame", Component: ClassicBordered },
   { id: "clean-professional", name: "Clean Professional", description: "Modern clean layout with blue accents", Component: CleanProfessional },
+  { id: "corporate-classic", name: "Corporate Classic", description: "Black & white, bold corporate style", Component: CorporateClassic },
 ];
 
 const Index = () => {

@@ -31,6 +31,7 @@ const Builder = () => {
     { id: "simple-accent", label: "Simple" },
     { id: "classic-bordered", label: "Classic" },
     { id: "clean-professional", label: "Clean" },
+    { id: "corporate-classic", label: "Corporate" },
   ];
 
   return (
