@@ -1,6 +1,6 @@
 import { Font } from "@react-pdf/renderer";
 
-// Register Montserrat (headings) and Open Sans (body)
+// Register Montserrat (headings) - TTF format required by @react-pdf
 Font.register({
   family: "Montserrat",
   fonts: [
@@ -10,11 +10,12 @@ Font.register({
   ],
 });
 
+// Register Open Sans (body) - using TTF format (not woff)
 Font.register({
   family: "OpenSans",
   fonts: [
-    { src: "https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVQUwaEQbjB_mQ.woff", fontWeight: 400 },
-    { src: "https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVQUwaEQbjB_mQ.woff", fontWeight: 600 },
+    { src: "https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVI.ttf", fontWeight: 400 },
+    { src: "https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVI.ttf", fontWeight: 600 },
   ],
 });
 
