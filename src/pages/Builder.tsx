@@ -5,8 +5,9 @@ import { saveResumeData, loadResumeData, loadTemplate, saveTemplate } from "@/ut
 import ResumeForm from "@/components/ResumeForm";
 import ResumePreview from "@/components/ResumePreview";
 import DownloadButton from "@/components/DownloadButton";
+import CVImportModal from "@/components/CVImportModal";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Eye, Edit3, FileText, ChevronDown } from "lucide-react";
+import { ArrowLeft, Eye, Edit3, FileText, ChevronDown, Upload } from "lucide-react";
 
 const Builder = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Builder = () => {
   const [template, setTemplate] = useState<TemplateName>("modern-minimal");
   const [mobileView, setMobileView] = useState<"form" | "preview">("form");
   const [templateOpen, setTemplateOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
 
   useEffect(() => {
     setData(loadResumeData());
@@ -21,6 +23,11 @@ const Builder = () => {
   }, []);
 
   const handleChange = useCallback((newData: ResumeData) => {
+    setData(newData);
+    saveResumeData(newData);
+  }, []);
+
+  const handleImportData = useCallback((newData: ResumeData) => {
     setData(newData);
     saveResumeData(newData);
   }, []);
@@ -87,6 +94,12 @@ const Builder = () => {
 
           {/* Right */}
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => setImportOpen(true)} className="hidden sm:flex gap-1.5 text-xs">
+              <Upload className="w-3.5 h-3.5" /> Import CV
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => setImportOpen(true)} className="flex sm:hidden h-8 w-8">
+              <Upload className="w-4 h-4" />
+            </Button>
             {/* Mobile toggle */}
             <div className="flex sm:hidden items-center gap-0.5 bg-secondary rounded-lg p-0.5">
               <button
@@ -125,6 +138,13 @@ const Builder = () => {
           </div>
         </div>
       </div>
+
+      <CVImportModal
+        open={importOpen}
+        onOpenChange={setImportOpen}
+        onDataExtracted={handleImportData}
+        hasExistingData={data.personalInfo.fullName.length > 0 || data.experience.length > 0}
+      />
     </div>
   );
 };
