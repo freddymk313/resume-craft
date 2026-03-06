@@ -1,5 +1,5 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
-import { ResumeData } from "@/utils/resumeTypes";
+import { ResumeData, getFullName } from "@/utils/resumeTypes";
 import { HEADING_FONT, BODY_FONT } from "./pdfFonts";
 
 const styles = StyleSheet.create({
@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
   skillItem: { width: "33.33%", textAlign: "center", fontSize: 11.5, color: "#333", paddingVertical: 2 },
   expBlock: { marginTop: 14 },
   expHeader: { flexDirection: "row", justifyContent: "space-between" },
-  expLeft: {},
   expCompany: { fontSize: 12, fontWeight: 700, fontFamily: HEADING_FONT },
   expPosition: { fontSize: 12, fontWeight: 700, fontFamily: HEADING_FONT },
   expDate: { fontSize: 11, color: "#333", textAlign: "right" },
@@ -32,13 +31,12 @@ interface Props { data: ResumeData }
 
 const CorporateClassicPDF = ({ data }: Props) => {
   const { personalInfo, summary, experience, education, skills, languages, certifications } = data;
-  const skillsList = skills.split(",").map((s) => s.trim()).filter(Boolean);
   const contact = [personalInfo.phone, personalInfo.email, personalInfo.website].filter(Boolean).join(" · ");
 
   return (
     <Document>
       <Page size="A4" style={styles.page} wrap>
-        <Text style={styles.name}>{personalInfo.fullName || "YOUR NAME"}</Text>
+        <Text style={styles.name}>{getFullName(personalInfo) || "YOUR NAME"}</Text>
         <View style={styles.contactRow}>
           {contact && <Text>{contact}</Text>}
           {personalInfo.location && <Text>{personalInfo.location}</Text>}
@@ -53,14 +51,12 @@ const CorporateClassicPDF = ({ data }: Props) => {
           </View>
         )}
 
-        {skillsList.length > 0 && (
+        {skills.length > 0 && (
           <View>
             <View style={styles.thinDivider} />
             <Text style={styles.sectionTitle}>Strengths and Expertise</Text>
             <View style={styles.skillsGrid}>
-              {skillsList.map((skill, i) => (
-                <Text key={i} style={styles.skillItem}>{skill}</Text>
-              ))}
+              {skills.map((skill, i) => <Text key={i} style={styles.skillItem}>{skill}</Text>)}
             </View>
           </View>
         )}
@@ -74,17 +70,14 @@ const CorporateClassicPDF = ({ data }: Props) => {
               return (
                 <View key={exp.id} style={styles.expBlock} wrap={false}>
                   <View style={styles.expHeader}>
-                    <View style={styles.expLeft}>
+                    <View>
                       <Text style={styles.expCompany}>{exp.company}</Text>
                       <Text style={styles.expPosition}>{exp.position}</Text>
                     </View>
                     <Text style={styles.expDate}>{exp.startDate} - {exp.currentJob ? "Present" : exp.endDate}</Text>
                   </View>
                   {bullets.map((line, i) => (
-                    <View key={i} style={styles.bulletRow}>
-                      <Text style={styles.bulletDot}>•</Text>
-                      <Text style={styles.bulletText}>{line}</Text>
-                    </View>
+                    <View key={i} style={styles.bulletRow}><Text style={styles.bulletDot}>•</Text><Text style={styles.bulletText}>{line}</Text></View>
                   ))}
                 </View>
               );
@@ -105,19 +98,19 @@ const CorporateClassicPDF = ({ data }: Props) => {
           </View>
         )}
 
-        {languages && (
+        {languages.length > 0 && (
           <View>
             <View style={styles.thinDivider} />
             <Text style={styles.sectionTitle}>Languages</Text>
-            <Text style={styles.smallText}>{languages}</Text>
+            <Text style={styles.smallText}>{languages.join(", ")}</Text>
           </View>
         )}
 
-        {certifications && (
+        {certifications.length > 0 && (
           <View>
             <View style={styles.thinDivider} />
             <Text style={styles.sectionTitle}>Certifications</Text>
-            <Text style={styles.smallText}>{certifications}</Text>
+            <Text style={styles.smallText}>{certifications.join(", ")}</Text>
           </View>
         )}
 

@@ -1,5 +1,6 @@
 export interface PersonalInfo {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   jobTitle: string;
   email: string;
   phone: string;
@@ -7,6 +8,10 @@ export interface PersonalInfo {
   website: string;
   linkedin: string;
 }
+
+export const getFullName = (info: PersonalInfo): string => {
+  return [info.firstName, info.lastName].filter(Boolean).join(" ");
+};
 
 export interface Experience {
   id: string;
@@ -33,16 +38,17 @@ export interface ResumeData {
   summary: string;
   experience: Experience[];
   education: Education[];
-  skills: string;
-  languages: string;
-  certifications: string;
+  skills: string[];
+  languages: string[];
+  certifications: string[];
 }
 
 export type TemplateName = "modern-minimal" | "sidebar-professional" | "creative-accent" | "simple-accent" | "classic-bordered" | "clean-professional" | "corporate-classic";
 
 export const defaultResumeData: ResumeData = {
   personalInfo: {
-    fullName: "",
+    firstName: "",
+    lastName: "",
     jobTitle: "",
     email: "",
     phone: "",
@@ -53,14 +59,15 @@ export const defaultResumeData: ResumeData = {
   summary: "",
   experience: [],
   education: [],
-  skills: "",
-  languages: "",
-  certifications: "",
+  skills: [],
+  languages: [],
+  certifications: [],
 };
 
 export const sampleResumeData: ResumeData = {
   personalInfo: {
-    fullName: "Sophie Martin",
+    firstName: "Sophie",
+    lastName: "Martin",
     jobTitle: "Product Designer",
     email: "sophie@example.com",
     phone: "+33 6 12 34 56 78",
@@ -101,7 +108,7 @@ export const sampleResumeData: ResumeData = {
       endDate: "2019-06",
     },
   ],
-  skills: "Figma, Sketch, Adobe XD, Prototyping, User Research, Design Systems, HTML/CSS, React",
-  languages: "French (Native), English (Fluent), Spanish (Intermediate)",
-  certifications: "Google UX Design Certificate, Interaction Design Foundation",
+  skills: ["Figma", "Sketch", "Adobe XD", "Prototyping", "User Research", "Design Systems", "HTML/CSS", "React"],
+  languages: ["French (Native)", "English (Fluent)", "Spanish (Intermediate)"],
+  certifications: ["Google UX Design Certificate", "Interaction Design Foundation"],
 };
