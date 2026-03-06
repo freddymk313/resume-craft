@@ -248,7 +248,7 @@ const Builder = () => {
         open={importOpen}
         onOpenChange={setImportOpen}
         onDataExtracted={handleImportData}
-        hasExistingData={data.personalInfo.fullName.length > 0 || data.experience.length > 0}
+        hasExistingData={getFullName(data.personalInfo).length > 0 || data.experience.length > 0}
       />
     </div>
   );

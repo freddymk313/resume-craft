@@ -106,11 +106,12 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
 
   const getSummaryItems = (data: ResumeData) => {
     const items: string[] = [];
-    if (data.personalInfo.fullName) items.push(`Name: ${data.personalInfo.fullName}`);
+    const fullName = getFullName(data.personalInfo);
+    if (fullName) items.push(`Name: ${fullName}`);
     if (data.personalInfo.jobTitle) items.push(`Title: ${data.personalInfo.jobTitle}`);
     if (data.experience.length) items.push(`${data.experience.length} experience(s)`);
     if (data.education.length) items.push(`${data.education.length} education(s)`);
-    if (data.skills) items.push("Skills detected");
+    if (data.skills.length) items.push("Skills detected");
     return items;
   };
 
