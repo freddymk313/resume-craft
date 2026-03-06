@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { ResumeData, TemplateName, defaultResumeData } from "@/utils/resumeTypes";
+import { ResumeData, TemplateName, defaultResumeData, getFullName } from "@/utils/resumeTypes";
 import { saveResumeData, loadResumeData, loadTemplate, saveTemplate } from "@/utils/storage";
 import ResumeForm from "@/components/ResumeForm";
 import ResumePreview from "@/components/ResumePreview";
