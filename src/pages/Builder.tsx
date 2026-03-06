@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { ResumeData, TemplateName, defaultResumeData } from "@/utils/resumeTypes";
+import { ResumeData, TemplateName, defaultResumeData, getFullName } from "@/utils/resumeTypes";
 import { saveResumeData, loadResumeData, loadTemplate, saveTemplate } from "@/utils/storage";
 import ResumeForm from "@/components/ResumeForm";
 import ResumePreview from "@/components/ResumePreview";
@@ -159,7 +159,7 @@ const Builder = () => {
                 <Eye className="w-4 h-4" />
               </button>
             </div>
-            <DownloadButton fileName={`${data.personalInfo.fullName || "resume"}.pdf`} data={data} template={template} />
+            <DownloadButton fileName={`${getFullName(data.personalInfo) || "resume"}.pdf`} data={data} template={template} />
           </div>
         </div>
       </header>
@@ -248,7 +248,7 @@ const Builder = () => {
         open={importOpen}
         onOpenChange={setImportOpen}
         onDataExtracted={handleImportData}
-        hasExistingData={data.personalInfo.fullName.length > 0 || data.experience.length > 0}
+        hasExistingData={getFullName(data.personalInfo).length > 0 || data.experience.length > 0}
       />
     </div>
   );

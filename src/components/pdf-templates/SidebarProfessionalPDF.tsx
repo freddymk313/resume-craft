@@ -1,5 +1,5 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
-import { ResumeData } from "@/utils/resumeTypes";
+import { ResumeData, getFullName } from "@/utils/resumeTypes";
 import { PdfEmailIcon, PdfPhoneIcon, PdfLocationIcon, PdfWebsiteIcon, PdfLinkedinIcon } from "./PdfIcons";
 import { HEADING_FONT, BODY_FONT } from "./pdfFonts";
 
@@ -34,13 +34,12 @@ interface Props { data: ResumeData }
 
 const SidebarProfessionalPDF = ({ data }: Props) => {
   const { personalInfo, summary, experience, education, skills, languages, certifications } = data;
-  const skillsList = skills.split(",").map((s) => s.trim()).filter(Boolean);
 
   return (
     <Document>
       <Page size="A4" style={styles.page} wrap>
         <View style={styles.sidebar}>
-          <Text style={styles.name}>{personalInfo.fullName || "Your Name"}</Text>
+          <Text style={styles.name}>{getFullName(personalInfo) || "Your Name"}</Text>
           <Text style={styles.jobTitle}>{personalInfo.jobTitle || "Job Title"}</Text>
 
           <View style={styles.sidebarSection}>
@@ -52,40 +51,26 @@ const SidebarProfessionalPDF = ({ data }: Props) => {
             {personalInfo.linkedin && <View style={styles.contactItem}><PdfLinkedinIcon size={9} color="#ffffff" /><Text>{personalInfo.linkedin}</Text></View>}
           </View>
 
-          {skillsList.length > 0 ? (
+          {skills.length > 0 ? (
             <View style={styles.sidebarSection}>
               <Text style={styles.sidebarTitle}>Skills</Text>
-              {skillsList.map((skill, i) => (
-                <View key={i} style={{ position: "relative" }}>
-                  <View style={styles.skillDot} />
-                  <Text style={styles.skillItem}>{skill}</Text>
-                </View>
+              {skills.map((skill, i) => (
+                <View key={i} style={{ position: "relative" }}><View style={styles.skillDot} /><Text style={styles.skillItem}>{skill}</Text></View>
               ))}
             </View>
           ) : null}
 
-          {languages ? (
-            <View style={styles.sidebarSection}>
-              <Text style={styles.sidebarTitle}>Languages</Text>
-              <Text style={styles.sidebarSmall}>{languages}</Text>
-            </View>
+          {languages.length > 0 ? (
+            <View style={styles.sidebarSection}><Text style={styles.sidebarTitle}>Languages</Text><Text style={styles.sidebarSmall}>{languages.join(", ")}</Text></View>
           ) : null}
 
-          {certifications ? (
-            <View style={styles.sidebarSection}>
-              <Text style={styles.sidebarTitle}>Certifications</Text>
-              <Text style={styles.sidebarSmall}>{certifications}</Text>
-            </View>
+          {certifications.length > 0 ? (
+            <View style={styles.sidebarSection}><Text style={styles.sidebarTitle}>Certifications</Text><Text style={styles.sidebarSmall}>{certifications.join(", ")}</Text></View>
           ) : null}
         </View>
 
         <View style={styles.main}>
-          {summary ? (
-            <View style={styles.mainSection}>
-              <Text style={styles.sectionTitle}>About</Text>
-              <Text style={styles.summaryText}>{summary}</Text>
-            </View>
-          ) : null}
+          {summary ? <View style={styles.mainSection}><Text style={styles.sectionTitle}>About</Text><Text style={styles.summaryText}>{summary}</Text></View> : null}
 
           {experience.length > 0 ? (
             <View style={styles.mainSection}>
@@ -100,10 +85,7 @@ const SidebarProfessionalPDF = ({ data }: Props) => {
                     <Text style={styles.expDate}>{exp.startDate} — {exp.currentJob ? "Present" : exp.endDate}</Text>
                   </View>
                   {exp.description?.split("\n").filter(Boolean).map((line, i) => (
-                    <View key={i} style={styles.bulletRow}>
-                      <Text style={styles.bulletDot}>•</Text>
-                      <Text style={styles.bulletText}>{line}</Text>
-                    </View>
+                    <View key={i} style={styles.bulletRow}><Text style={styles.bulletDot}>•</Text><Text style={styles.bulletText}>{line}</Text></View>
                   ))}
                 </View>
               ))}

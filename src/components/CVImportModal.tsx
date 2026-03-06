@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Upload, FileText, CheckCircle2, AlertCircle, Loader2, X, Sparkles } from "lucide-react";
-import { ResumeData } from "@/utils/resumeTypes";
+import { ResumeData, getFullName } from "@/utils/resumeTypes";
 import { validateFile, extractTextFromFile } from "@/utils/fileExtraction";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -106,11 +106,12 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
 
   const getSummaryItems = (data: ResumeData) => {
     const items: string[] = [];
-    if (data.personalInfo.fullName) items.push(`Name: ${data.personalInfo.fullName}`);
+    const fullName = getFullName(data.personalInfo);
+    if (fullName) items.push(`Name: ${fullName}`);
     if (data.personalInfo.jobTitle) items.push(`Title: ${data.personalInfo.jobTitle}`);
     if (data.experience.length) items.push(`${data.experience.length} experience(s)`);
     if (data.education.length) items.push(`${data.education.length} education(s)`);
-    if (data.skills) items.push("Skills detected");
+    if (data.skills.length) items.push("Skills detected");
     return items;
   };
 

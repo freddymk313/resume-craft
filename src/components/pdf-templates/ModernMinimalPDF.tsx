@@ -1,5 +1,5 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
-import { ResumeData } from "@/utils/resumeTypes";
+import { ResumeData, getFullName } from "@/utils/resumeTypes";
 import { PdfEmailIcon, PdfPhoneIcon, PdfLocationIcon, PdfWebsiteIcon, PdfLinkedinIcon } from "./PdfIcons";
 import { HEADING_FONT, BODY_FONT } from "./pdfFonts";
 
@@ -39,13 +39,12 @@ interface Props { data: ResumeData }
 
 const ModernMinimalPDF = ({ data }: Props) => {
   const { personalInfo, summary, experience, education, skills, languages, certifications } = data;
-  const skillsList = skills.split(",").map((s) => s.trim()).filter(Boolean);
 
   return (
     <Document>
       <Page size="A4" style={styles.page} wrap>
         <View style={styles.header}>
-          <Text style={styles.name}>{personalInfo.fullName || "Your Name"}</Text>
+          <Text style={styles.name}>{getFullName(personalInfo) || "Your Name"}</Text>
           <Text style={styles.jobTitle}>{personalInfo.jobTitle || "Job Title"}</Text>
           <View style={styles.contactRow}>
             {personalInfo.email && <View style={styles.contactItem}><PdfEmailIcon size={9} /><Text>{personalInfo.email}</Text></View>}
@@ -58,12 +57,7 @@ const ModernMinimalPDF = ({ data }: Props) => {
 
         <View style={styles.divider} />
 
-        {summary ? (
-          <View style={styles.sectionBlock}>
-            <Text style={styles.sectionTitle}>Profile</Text>
-            <Text style={styles.summaryText}>{summary}</Text>
-          </View>
-        ) : null}
+        {summary ? <View style={styles.sectionBlock}><Text style={styles.sectionTitle}>Profile</Text><Text style={styles.summaryText}>{summary}</Text></View> : null}
 
         {experience.length > 0 ? (
           <View style={styles.sectionBlock}>
@@ -78,10 +72,7 @@ const ModernMinimalPDF = ({ data }: Props) => {
                   <Text style={styles.expDate}>{exp.startDate} — {exp.currentJob ? "Present" : exp.endDate}</Text>
                 </View>
                 {exp.description?.split("\n").filter(Boolean).map((line, i) => (
-                  <View key={i} style={styles.bulletRow}>
-                    <Text style={styles.bulletDot}>•</Text>
-                    <Text style={styles.bulletText}>{line}</Text>
-                  </View>
+                  <View key={i} style={styles.bulletRow}><Text style={styles.bulletDot}>•</Text><Text style={styles.bulletText}>{line}</Text></View>
                 ))}
               </View>
             ))}
@@ -105,30 +96,18 @@ const ModernMinimalPDF = ({ data }: Props) => {
           </View>
         ) : null}
 
-        {skillsList.length > 0 ? (
+        {skills.length > 0 ? (
           <View style={styles.sectionBlock}>
             <Text style={styles.sectionTitle}>Skills</Text>
             <View style={styles.skillsRow}>
-              {skillsList.map((skill, i) => (
-                <Text key={i} style={styles.skillBadge}>{skill}</Text>
-              ))}
+              {skills.map((skill, i) => <Text key={i} style={styles.skillBadge}>{skill}</Text>)}
             </View>
           </View>
         ) : null}
 
         <View style={styles.twoCol}>
-          {languages ? (
-            <View style={styles.colHalf}>
-              <Text style={styles.sectionTitle}>Languages</Text>
-              <Text style={styles.smallText}>{languages}</Text>
-            </View>
-          ) : null}
-          {certifications ? (
-            <View style={styles.colHalf}>
-              <Text style={styles.sectionTitle}>Certifications</Text>
-              <Text style={styles.smallText}>{certifications}</Text>
-            </View>
-          ) : null}
+          {languages.length > 0 ? <View style={styles.colHalf}><Text style={styles.sectionTitle}>Languages</Text><Text style={styles.smallText}>{languages.join(", ")}</Text></View> : null}
+          {certifications.length > 0 ? <View style={styles.colHalf}><Text style={styles.sectionTitle}>Certifications</Text><Text style={styles.smallText}>{certifications.join(", ")}</Text></View> : null}
         </View>
       </Page>
     </Document>
