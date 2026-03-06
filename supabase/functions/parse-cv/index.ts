@@ -66,7 +66,8 @@ Rules:
                   personalInfo: {
                     type: "object",
                     properties: {
-                      fullName: { type: "string" },
+                      firstName: { type: "string" },
+                      lastName: { type: "string" },
                       jobTitle: { type: "string" },
                       email: { type: "string" },
                       phone: { type: "string" },
@@ -74,7 +75,7 @@ Rules:
                       website: { type: "string" },
                       linkedin: { type: "string" },
                     },
-                    required: ["fullName", "jobTitle", "email", "phone", "location", "website", "linkedin"],
+                    required: ["firstName", "lastName", "jobTitle", "email", "phone", "location", "website", "linkedin"],
                     additionalProperties: false,
                   },
                   summary: { type: "string" },
