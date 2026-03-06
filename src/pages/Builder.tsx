@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ResumeData, TemplateName, defaultResumeData } from "@/utils/resumeTypes";
 import { saveResumeData, loadResumeData, loadTemplate, saveTemplate } from "@/utils/storage";
@@ -7,7 +7,10 @@ import ResumePreview from "@/components/ResumePreview";
 import DownloadButton from "@/components/DownloadButton";
 import CVImportModal from "@/components/CVImportModal";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Eye, Edit3, FileText, ChevronDown, Upload } from "lucide-react";
+import { ArrowLeft, Eye, Edit3, FileText, ChevronDown, ChevronLeft, ChevronRight, Upload } from "lucide-react";
+
+const A4_WIDTH = 794;
+const A4_HEIGHT = 1123;
 
 const Builder = () => {
   const navigate = useNavigate();
@@ -16,11 +19,50 @@ const Builder = () => {
   const [mobileView, setMobileView] = useState<"form" | "preview">("form");
   const [templateOpen, setTemplateOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [previewScale, setPreviewScale] = useState(0.75);
+  const previewContainerRef = useRef<HTMLDivElement>(null);
+  const resumeContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setData(loadResumeData());
     setTemplate(loadTemplate());
   }, []);
+
+  // Calculate scale based on container width
+  useEffect(() => {
+    const updateScale = () => {
+      if (previewContainerRef.current) {
+        const containerWidth = previewContainerRef.current.clientWidth;
+        const padding = 80; // 40px each side
+        const availableWidth = containerWidth - padding;
+        const scale = Math.min(availableWidth / A4_WIDTH, 0.85);
+        setPreviewScale(Math.max(scale, 0.4));
+      }
+    };
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
+  // Detect total pages from content height
+  useEffect(() => {
+    const checkPages = () => {
+      if (resumeContentRef.current) {
+        const contentHeight = resumeContentRef.current.scrollHeight;
+        const pages = Math.max(1, Math.ceil(contentHeight / A4_HEIGHT));
+        setTotalPages(pages);
+        if (currentPage > pages) setCurrentPage(pages);
+      }
+    };
+    checkPages();
+    const observer = new MutationObserver(checkPages);
+    if (resumeContentRef.current) {
+      observer.observe(resumeContentRef.current, { childList: true, subtree: true, characterData: true });
+    }
+    return () => observer.disconnect();
+  }, [data, template, currentPage]);
 
   const handleChange = useCallback((newData: ResumeData) => {
     setData(newData);
@@ -43,6 +85,8 @@ const Builder = () => {
   ];
 
   const currentLabel = templateOptions.find(t => t.id === template)?.label || "Template";
+
+  const pageOffset = -(currentPage - 1) * A4_HEIGHT;
 
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
@@ -120,22 +164,83 @@ const Builder = () => {
         </div>
       </header>
 
-      {/* Content */}
+      {/* Content — Two Panel Layout */}
       <div className="flex-1 flex flex-col sm:flex-row min-h-0">
-        {/* Form Panel */}
-        <div className={`w-full sm:w-[420px] lg:w-[460px] shrink-0 border-r border-border overflow-y-auto ${mobileView === "preview" ? "hidden sm:block" : ""}`}>
-          <div className="p-5 lg:p-6">
+        {/* Editor Panel — 45% */}
+        <div
+          className={`w-full sm:w-[45%] shrink-0 border-r border-border overflow-y-auto ${
+            mobileView === "preview" ? "hidden sm:block" : ""
+          }`}
+        >
+          <div className="p-6 lg:p-8 max-w-[560px] mx-auto">
             <ResumeForm data={data} onChange={handleChange} />
           </div>
         </div>
 
-        {/* Preview Panel */}
-        <div className={`flex-1 overflow-y-auto bg-muted/30 ${mobileView === "form" ? "hidden sm:block" : ""}`}>
-          <div className="flex justify-center p-8 lg:p-12">
-            <div className="shadow-resume rounded-sm overflow-hidden bg-white" style={{ width: "794px", minHeight: "1123px" }}>
-              <ResumePreview data={data} template={template} />
+        {/* Preview Panel — 55% */}
+        <div
+          ref={previewContainerRef}
+          className={`flex-1 overflow-hidden bg-muted/50 relative ${
+            mobileView === "form" ? "hidden sm:flex" : "flex"
+          } items-start justify-center`}
+        >
+          {/* Scaled A4 Preview */}
+          <div className="flex-1 flex items-start justify-center overflow-y-auto h-full py-10 px-5">
+            <div
+              style={{
+                transform: `scale(${previewScale})`,
+                transformOrigin: "top center",
+                width: `${A4_WIDTH}px`,
+                minHeight: `${A4_HEIGHT}px`,
+                flexShrink: 0,
+              }}
+            >
+              {/* A4 page with clip for current page */}
+              <div
+                className="bg-white rounded-md overflow-hidden"
+                style={{
+                  width: `${A4_WIDTH}px`,
+                  height: `${A4_HEIGHT}px`,
+                  boxShadow: "0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04)",
+                }}
+              >
+                <div
+                  ref={resumeContentRef}
+                  style={{
+                    transform: `translateY(${pageOffset}px)`,
+                    transition: "transform 0.3s ease",
+                  }}
+                >
+                  <ResumePreview data={data} template={template} />
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* Page Navigation */}
+          {totalPages > 1 && (
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
+              <div className="flex items-center gap-1 bg-card/95 backdrop-blur-sm border border-border rounded-full shadow-elevated px-1.5 py-1">
+                <button
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage <= 1}
+                  className="p-1.5 rounded-full hover:bg-secondary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <span className="text-sm font-medium px-2 tabular-nums text-foreground">
+                  {currentPage} / {totalPages}
+                </span>
+                <button
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage >= totalPages}
+                  className="p-1.5 rounded-full hover:bg-secondary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
