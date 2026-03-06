@@ -159,7 +159,7 @@ const Builder = () => {
                 <Eye className="w-4 h-4" />
               </button>
             </div>
-            <DownloadButton fileName={`${data.personalInfo.fullName || "resume"}.pdf`} data={data} template={template} />
+            <DownloadButton fileName={`${getFullName(data.personalInfo) || "resume"}.pdf`} data={data} template={template} />
           </div>
         </div>
       </header>
