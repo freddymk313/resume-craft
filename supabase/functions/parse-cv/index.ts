@@ -30,14 +30,15 @@ serve(async (req) => {
 You MUST use the tool "extract_resume_data" to return the structured data. Do not return plain text.
 
 Rules:
-- Extract the full name, job title, email, phone, location, website, and LinkedIn URL from the contact/header section.
+- Extract the first name and last name separately from the contact/header section.
+- Extract job title, email, phone, location, website, and LinkedIn URL.
 - Extract every work experience entry with company, position, location, start date (YYYY-MM format), end date (YYYY-MM format or empty if current), whether it's a current job, and description (bullet points joined by newlines).
 - Extract every education entry with school, degree, location, start date, and end date.
-- Extract skills as a comma-separated string.
-- Extract languages as a comma-separated string.
-- Extract certifications as a comma-separated string.
+- Extract skills as an array of individual skill strings.
+- Extract languages as an array of individual language strings (e.g. "French (Native)").
+- Extract certifications as an array of individual certification strings.
 - Extract a professional summary if present.
-- If a field is not found, use an empty string.
+- If a field is not found, use an empty string for strings or empty array for arrays.
 - For dates, try to convert to YYYY-MM format. If only a year is given, use YYYY-01.
 - Generate unique IDs for experience and education entries (use simple numbers like "1", "2", etc.)`;
 
