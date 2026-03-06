@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Upload, FileText, CheckCircle2, AlertCircle, Loader2, X, Sparkles } from "lucide-react";
-import { ResumeData } from "@/utils/resumeTypes";
+import { ResumeData, getFullName } from "@/utils/resumeTypes";
 import { validateFile, extractTextFromFile } from "@/utils/fileExtraction";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
