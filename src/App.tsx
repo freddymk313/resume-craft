@@ -5,6 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Builder from "./pages/Builder";
+import Dashboard from "./pages/Dashboard";
+import DashboardResumes from "./pages/DashboardResumes";
+import DashboardSettings from "./pages/DashboardSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -18,6 +21,14 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/builder" element={<Builder />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/resumes" element={<DashboardResumes />} />
+          <Route path="/dashboard/settings" element={<DashboardSettings />} />
+          <Route path="/dashboard/jobs" element={<Dashboard />} />
+          <Route path="/dashboard/saved" element={<Dashboard />} />
+          <Route path="/dashboard/messages" element={<Dashboard />} />
+          <Route path="/dashboard/notifications" element={<Dashboard />} />
+          <Route path="/dashboard/help" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
