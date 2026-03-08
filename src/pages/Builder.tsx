@@ -11,9 +11,6 @@ import { ArrowLeft, Eye, Edit3, FileText, ChevronDown, Upload } from "lucide-rea
 import { useTranslation } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-const A4_WIDTH = 794;
-const A4_HEIGHT = 1123;
-
 const Builder = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -22,11 +19,6 @@ const Builder = () => {
   const [mobileView, setMobileView] = useState<"form" | "preview">("form");
   const [templateOpen, setTemplateOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [previewScale, setPreviewScale] = useState(0.75);
-  const previewContainerRef = useRef<HTMLDivElement>(null);
-  const resumeContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setData(loadResumeData());
