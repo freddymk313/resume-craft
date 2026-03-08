@@ -142,68 +142,13 @@ const Builder = () => {
           </div>
         </div>
 
-        {/* Preview Panel — 55% */}
+        {/* Preview Panel — 60% */}
         <div
-          ref={previewContainerRef}
-          className={`flex-1 overflow-hidden bg-muted/50 relative ${
+          className={`flex-1 min-h-0 ${
             mobileView === "form" ? "hidden sm:flex" : "flex"
-          } items-start justify-center`}
+          }`}
         >
-          <div className="flex-1 flex items-start justify-center overflow-y-auto h-full py-10 px-5">
-            <div
-              style={{
-                transform: `scale(${previewScale})`,
-                transformOrigin: "top center",
-                width: `${A4_WIDTH}px`,
-                minHeight: `${A4_HEIGHT}px`,
-                flexShrink: 0,
-              }}
-            >
-              <div
-                className="bg-white rounded-md overflow-hidden"
-                style={{
-                  width: `${A4_WIDTH}px`,
-                  height: `${A4_HEIGHT}px`,
-                  boxShadow: "0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04)",
-                }}
-              >
-                <div
-                  ref={resumeContentRef}
-                  style={{
-                    transform: `translateY(${pageOffset}px)`,
-                    transition: "transform 0.3s ease",
-                  }}
-                >
-                  <ResumePreview data={data} template={template} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Page Navigation */}
-          {totalPages > 1 && (
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
-              <div className="flex items-center gap-1 bg-card/95 backdrop-blur-sm border border-border rounded-full shadow-elevated px-1.5 py-1">
-                <button
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                  disabled={currentPage <= 1}
-                  className="p-1.5 rounded-full hover:bg-secondary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <span className="text-sm font-medium px-2 tabular-nums text-foreground">
-                  {currentPage} / {totalPages}
-                </span>
-                <button
-                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                  disabled={currentPage >= totalPages}
-                  className="p-1.5 rounded-full hover:bg-secondary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
+          <PreviewContainer data={data} template={template} />
         </div>
       </div>
 
