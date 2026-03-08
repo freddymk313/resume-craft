@@ -50,7 +50,7 @@ const Builder = () => {
   ];
 
   const currentLabel = templateOptions.find(t => t.id === template)?.label || "Template";
-  const pageOffset = -(currentPage - 1) * A4_HEIGHT;
+  
 
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
