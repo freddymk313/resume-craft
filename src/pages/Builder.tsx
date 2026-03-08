@@ -92,13 +92,13 @@ const Builder = () => {
     <div className="h-screen flex flex-col bg-background overflow-hidden">
       {/* Top Bar */}
       <header className="shrink-0 z-50 bg-card border-b border-border">
-        <div className="px-4 h-14 flex items-center justify-between gap-3">
+        <div className="px-2 sm:px-4 h-12 sm:h-14 flex items-center justify-between gap-1 sm:gap-3">
           {/* Left */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
             <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="h-8 w-8 shrink-0">
               <ArrowLeft className="w-4 h-4" />
             </Button>
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
               <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center">
                 <FileText className="w-3 h-3 text-primary-foreground" />
               </div>
@@ -107,12 +107,12 @@ const Builder = () => {
           </div>
 
           {/* Center — Template Switcher */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               onClick={() => setTemplateOpen(!templateOpen)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-sm font-medium"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-xs sm:text-sm font-medium"
             >
-              {currentLabel} <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
+              {currentLabel} <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
             </button>
             {templateOpen && (
               <>
@@ -137,26 +137,26 @@ const Builder = () => {
           </div>
 
           {/* Right */}
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => setImportOpen(true)} className="hidden sm:flex gap-1.5 text-xs">
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <Button variant="outline" size="sm" onClick={() => setImportOpen(true)} className="hidden md:flex gap-1.5 text-xs">
               <Upload className="w-3.5 h-3.5" /> Import CV
             </Button>
-            <Button variant="ghost" size="icon" onClick={() => setImportOpen(true)} className="flex sm:hidden h-8 w-8">
+            <Button variant="ghost" size="icon" onClick={() => setImportOpen(true)} className="flex md:hidden h-8 w-8">
               <Upload className="w-4 h-4" />
             </Button>
             {/* Mobile toggle */}
             <div className="flex sm:hidden items-center gap-0.5 bg-secondary rounded-lg p-0.5">
               <button
                 onClick={() => setMobileView("form")}
-                className={`p-2 rounded-md transition-all ${mobileView === "form" ? "bg-card shadow-sm" : "text-muted-foreground"}`}
+                className={`p-1.5 rounded-md transition-all ${mobileView === "form" ? "bg-card shadow-sm" : "text-muted-foreground"}`}
               >
-                <Edit3 className="w-4 h-4" />
+                <Edit3 className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => setMobileView("preview")}
-                className={`p-2 rounded-md transition-all ${mobileView === "preview" ? "bg-card shadow-sm" : "text-muted-foreground"}`}
+                className={`p-1.5 rounded-md transition-all ${mobileView === "preview" ? "bg-card shadow-sm" : "text-muted-foreground"}`}
               >
-                <Eye className="w-4 h-4" />
+                <Eye className="w-3.5 h-3.5" />
               </button>
             </div>
             <DownloadButton fileName={`${getFullName(data.personalInfo) || "resume"}.pdf`} data={data} template={template} />
