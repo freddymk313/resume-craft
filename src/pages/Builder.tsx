@@ -8,12 +8,15 @@ import DownloadButton from "@/components/DownloadButton";
 import CVImportModal from "@/components/CVImportModal";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Eye, Edit3, FileText, ChevronDown, ChevronLeft, ChevronRight, Upload } from "lucide-react";
+import { useTranslation } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const A4_WIDTH = 794;
 const A4_HEIGHT = 1123;
 
 const Builder = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [data, setData] = useState<ResumeData>(defaultResumeData);
   const [template, setTemplate] = useState<TemplateName>("modern-minimal");
   const [mobileView, setMobileView] = useState<"form" | "preview">("form");
@@ -30,12 +33,11 @@ const Builder = () => {
     setTemplate(loadTemplate());
   }, []);
 
-  // Calculate scale based on container width
   useEffect(() => {
     const updateScale = () => {
       if (previewContainerRef.current) {
         const containerWidth = previewContainerRef.current.clientWidth;
-        const padding = 80; // 40px each side
+        const padding = 80;
         const availableWidth = containerWidth - padding;
         const scale = Math.min(availableWidth / A4_WIDTH, 0.85);
         setPreviewScale(Math.max(scale, 0.4));
@@ -46,7 +48,6 @@ const Builder = () => {
     return () => window.removeEventListener("resize", updateScale);
   }, []);
 
-  // Detect total pages from content height
   useEffect(() => {
     const checkPages = () => {
       if (resumeContentRef.current) {
@@ -88,7 +89,6 @@ const Builder = () => {
   ];
 
   const currentLabel = templateOptions.find(t => t.id === template)?.label || "Template";
-
   const pageOffset = -(currentPage - 1) * A4_HEIGHT;
 
   return (
@@ -105,7 +105,7 @@ const Builder = () => {
               <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center">
                 <FileText className="w-3 h-3 text-primary-foreground" />
               </div>
-              <span className="font-display font-bold text-sm">Resume Builder</span>
+              <span className="font-display font-bold text-sm">{t("builder_title")}</span>
             </div>
           </div>
 
@@ -121,17 +121,17 @@ const Builder = () => {
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setTemplateOpen(false)} />
                 <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-50 bg-card border border-border rounded-xl shadow-elevated p-1.5 min-w-[180px]">
-                  {templateOptions.map((t) => (
+                  {templateOptions.map((tOpt) => (
                     <button
-                      key={t.id}
-                      onClick={() => { setTemplate(t.id); saveTemplate(t.id); setTemplateOpen(false); }}
+                      key={tOpt.id}
+                      onClick={() => { setTemplate(tOpt.id); saveTemplate(tOpt.id); setTemplateOpen(false); }}
                       className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                        template === t.id
+                        template === tOpt.id
                           ? "bg-primary/10 text-primary font-medium"
                           : "text-foreground hover:bg-secondary"
                       }`}
                     >
-                      {t.label}
+                      {tOpt.label}
                     </button>
                   ))}
                 </div>
@@ -141,8 +141,9 @@ const Builder = () => {
 
           {/* Right */}
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <LanguageSwitcher />
             <Button variant="outline" size="sm" onClick={() => setImportOpen(true)} className="hidden md:flex gap-1.5 text-xs">
-              <Upload className="w-3.5 h-3.5" /> Import CV
+              <Upload className="w-3.5 h-3.5" /> {t("builder_import_cv")}
             </Button>
             <Button variant="ghost" size="icon" onClick={() => setImportOpen(true)} className="flex md:hidden h-8 w-8">
               <Upload className="w-4 h-4" />
@@ -187,7 +188,6 @@ const Builder = () => {
             mobileView === "form" ? "hidden sm:flex" : "flex"
           } items-start justify-center`}
         >
-          {/* Scaled A4 Preview */}
           <div className="flex-1 flex items-start justify-center overflow-y-auto h-full py-10 px-5">
             <div
               style={{
@@ -198,7 +198,6 @@ const Builder = () => {
                 flexShrink: 0,
               }}
             >
-              {/* A4 page with clip for current page */}
               <div
                 className="bg-white rounded-md overflow-hidden"
                 style={{

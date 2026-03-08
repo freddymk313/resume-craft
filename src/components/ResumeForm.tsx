@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import TagInput from "@/components/TagInput";
 import { ChevronDown, ChevronRight, Plus, Trash2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 interface Props {
   data: ResumeData;
@@ -75,12 +76,13 @@ const Field = ({ label, children, fullWidth = false }: { label: string; children
 
 const ResumeForm = ({ data, onChange }: Props) => {
   const [openEntries, setOpenEntries] = useState<Record<string, boolean>>({});
+  const { t } = useTranslation();
 
   const toggleEntry = (id: string) => {
     setOpenEntries(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const isEntryOpen = (id: string) => openEntries[id] !== false; // default open
+  const isEntryOpen = (id: string) => openEntries[id] !== false;
 
   const update = (path: string, value: string | boolean) => {
     const newData = JSON.parse(JSON.stringify(data)) as ResumeData;
@@ -140,64 +142,61 @@ const ResumeForm = ({ data, onChange }: Props) => {
   };
 
   const getExpTitle = (exp: Experience) => {
-    if (exp.position && exp.company) return `${exp.position} at ${exp.company}`;
+    if (exp.position && exp.company) return `${exp.position} ${t("exp_at")} ${exp.company}`;
     if (exp.position) return exp.position;
     if (exp.company) return exp.company;
-    return "New Experience";
+    return t("new_experience");
   };
 
   const getEduTitle = (edu: Education) => {
-    if (edu.degree && edu.school) return `${edu.degree} — ${edu.school}`;
+    if (edu.degree && edu.school) return `${edu.degree} ${t("edu_dash")} ${edu.school}`;
     if (edu.degree) return edu.degree;
     if (edu.school) return edu.school;
-    return "New Education";
+    return t("new_education");
   };
 
   return (
     <div className="space-y-5">
-      {/* Personal Information */}
-      <Section title="Personal Information">
+      <Section title={t("form_personal_info")}>
         <div className="grid grid-cols-2 gap-4">
-          <Field label="First Name">
+          <Field label={t("form_first_name")}>
             <Input value={data.personalInfo.firstName} onChange={(e) => update("personalInfo.firstName", e.target.value)} placeholder="Sophie" />
           </Field>
-          <Field label="Last Name">
+          <Field label={t("form_last_name")}>
             <Input value={data.personalInfo.lastName} onChange={(e) => update("personalInfo.lastName", e.target.value)} placeholder="Martin" />
           </Field>
-          <Field label="Job Title" fullWidth>
+          <Field label={t("form_job_title")} fullWidth>
             <Input value={data.personalInfo.jobTitle} onChange={(e) => update("personalInfo.jobTitle", e.target.value)} placeholder="Product Designer" />
           </Field>
-          <Field label="Email">
+          <Field label={t("form_email")}>
             <Input type="email" value={data.personalInfo.email} onChange={(e) => update("personalInfo.email", e.target.value)} placeholder="email@example.com" />
           </Field>
-          <Field label="Phone">
+          <Field label={t("form_phone")}>
             <Input value={data.personalInfo.phone} onChange={(e) => update("personalInfo.phone", e.target.value)} placeholder="+33 6 12 34 56 78" />
           </Field>
-          <Field label="Location" fullWidth>
+          <Field label={t("form_location")} fullWidth>
             <Input value={data.personalInfo.location} onChange={(e) => update("personalInfo.location", e.target.value)} placeholder="Paris, France" />
           </Field>
-          <Field label="Website">
+          <Field label={t("form_website")}>
             <Input value={data.personalInfo.website} onChange={(e) => update("personalInfo.website", e.target.value)} placeholder="mywebsite.com" />
           </Field>
-          <Field label="LinkedIn">
+          <Field label={t("form_linkedin")}>
             <Input value={data.personalInfo.linkedin} onChange={(e) => update("personalInfo.linkedin", e.target.value)} placeholder="linkedin.com/in/username" />
           </Field>
         </div>
       </Section>
 
-      {/* Professional Summary */}
-      <Section title="Professional Summary">
+      <Section title={t("form_summary")}>
         <Textarea
           value={data.summary}
           onChange={(e) => onChange({ ...data, summary: e.target.value })}
-          placeholder="Write a brief summary highlighting your key qualifications, experience, and career goals..."
+          placeholder={t("form_summary_placeholder")}
           rows={5}
           className="min-h-[120px] resize-y leading-relaxed"
         />
       </Section>
 
-      {/* Work Experience */}
-      <Section title="Work Experience">
+      <Section title={t("form_experience")}>
         <div className="space-y-3">
           {data.experience.map((exp) => (
             <div key={exp.id} className="p-4 bg-secondary/30 rounded-xl border border-border/50 space-y-3 relative group">
@@ -210,20 +209,20 @@ const ResumeForm = ({ data, onChange }: Props) => {
               {isEntryOpen(exp.id) && (
                 <div className="space-y-4 pt-1">
                   <div className="grid grid-cols-2 gap-4">
-                    <Field label="Position">
+                    <Field label={t("form_position")}>
                       <Input value={exp.position} onChange={(e) => updateExperience(exp.id, "position", e.target.value)} placeholder="Senior Designer" autoFocus={!exp.position} />
                     </Field>
-                    <Field label="Company">
+                    <Field label={t("form_company")}>
                       <Input value={exp.company} onChange={(e) => updateExperience(exp.id, "company", e.target.value)} placeholder="TechCorp" />
                     </Field>
-                    <Field label="Location">
+                    <Field label={t("form_location")}>
                       <Input value={exp.location} onChange={(e) => updateExperience(exp.id, "location", e.target.value)} placeholder="Paris, France" />
                     </Field>
                     <div />
-                    <Field label="Start Date">
+                    <Field label={t("form_start_date")}>
                       <Input value={exp.startDate} onChange={(e) => updateExperience(exp.id, "startDate", e.target.value)} placeholder="Jan 2022" />
                     </Field>
-                    <Field label="End Date">
+                    <Field label={t("form_end_date")}>
                       <Input value={exp.endDate} onChange={(e) => updateExperience(exp.id, "endDate", e.target.value)} placeholder="Present" disabled={exp.currentJob} />
                     </Field>
                   </div>
@@ -233,13 +232,13 @@ const ResumeForm = ({ data, onChange }: Props) => {
                       checked={exp.currentJob}
                       onCheckedChange={(checked) => updateExperience(exp.id, "currentJob", !!checked)}
                     />
-                    <Label htmlFor={`current-${exp.id}`} className="text-xs text-muted-foreground cursor-pointer">I currently work here</Label>
+                    <Label htmlFor={`current-${exp.id}`} className="text-xs text-muted-foreground cursor-pointer">{t("form_current_job")}</Label>
                   </div>
-                  <Field label="Description" fullWidth>
+                  <Field label={t("form_description")} fullWidth>
                     <Textarea
                       value={exp.description}
                       onChange={(e) => updateExperience(exp.id, "description", e.target.value)}
-                      placeholder="Describe your responsibilities and achievements (one per line)..."
+                      placeholder={t("form_description_placeholder")}
                       rows={3}
                       className="resize-y leading-relaxed"
                     />
@@ -249,13 +248,12 @@ const ResumeForm = ({ data, onChange }: Props) => {
             </div>
           ))}
           <Button variant="outline" size="sm" onClick={addExperience} className="w-full gap-1.5 h-10 rounded-lg border-dashed">
-            <Plus className="w-4 h-4" /> Add Experience
+            <Plus className="w-4 h-4" /> {t("form_add_experience")}
           </Button>
         </div>
       </Section>
 
-      {/* Education */}
-      <Section title="Education">
+      <Section title={t("form_education")}>
         <div className="space-y-3">
           {data.education.map((edu) => (
             <div key={edu.id} className="p-4 bg-secondary/30 rounded-xl border border-border/50 space-y-3 relative group">
@@ -268,19 +266,19 @@ const ResumeForm = ({ data, onChange }: Props) => {
               {isEntryOpen(edu.id) && (
                 <div className="space-y-4 pt-1">
                   <div className="grid grid-cols-2 gap-4">
-                    <Field label="Degree">
+                    <Field label={t("form_degree")}>
                       <Input value={edu.degree} onChange={(e) => updateEducation(edu.id, "degree", e.target.value)} placeholder="Master in Design" autoFocus={!edu.degree} />
                     </Field>
-                    <Field label="School">
+                    <Field label={t("form_school")}>
                       <Input value={edu.school} onChange={(e) => updateEducation(edu.id, "school", e.target.value)} placeholder="Design School" />
                     </Field>
-                    <Field label="Location" fullWidth>
+                    <Field label={t("form_location")} fullWidth>
                       <Input value={edu.location} onChange={(e) => updateEducation(edu.id, "location", e.target.value)} placeholder="Nantes, France" />
                     </Field>
-                    <Field label="Start Date">
+                    <Field label={t("form_start_date")}>
                       <Input value={edu.startDate} onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)} placeholder="Sep 2015" />
                     </Field>
-                    <Field label="End Date">
+                    <Field label={t("form_end_date")}>
                       <Input value={edu.endDate} onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)} placeholder="Jun 2019" />
                     </Field>
                   </div>
@@ -289,14 +287,13 @@ const ResumeForm = ({ data, onChange }: Props) => {
             </div>
           ))}
           <Button variant="outline" size="sm" onClick={addEducation} className="w-full gap-1.5 h-10 rounded-lg border-dashed">
-            <Plus className="w-4 h-4" /> Add Education
+            <Plus className="w-4 h-4" /> {t("form_add_education")}
           </Button>
         </div>
       </Section>
 
-      {/* Skills */}
-      <Section title="Skills">
-        <Field label="Add your skills one by one (press Enter)" fullWidth>
+      <Section title={t("form_skills")}>
+        <Field label={t("form_skills_label")} fullWidth>
           <TagInput
             value={data.skills}
             onChange={(skills) => onChange({ ...data, skills })}
@@ -305,9 +302,8 @@ const ResumeForm = ({ data, onChange }: Props) => {
         </Field>
       </Section>
 
-      {/* Languages */}
-      <Section title="Languages" defaultOpen={false}>
-        <Field label="Add languages (press Enter)" fullWidth>
+      <Section title={t("form_languages")} defaultOpen={false}>
+        <Field label={t("form_languages_label")} fullWidth>
           <TagInput
             value={data.languages}
             onChange={(languages) => onChange({ ...data, languages })}
@@ -316,9 +312,8 @@ const ResumeForm = ({ data, onChange }: Props) => {
         </Field>
       </Section>
 
-      {/* Certifications */}
-      <Section title="Certifications" defaultOpen={false}>
-        <Field label="Add certifications (press Enter)" fullWidth>
+      <Section title={t("form_certifications")} defaultOpen={false}>
+        <Field label={t("form_certifications_label")} fullWidth>
           <TagInput
             value={data.certifications}
             onChange={(certifications) => onChange({ ...data, certifications })}

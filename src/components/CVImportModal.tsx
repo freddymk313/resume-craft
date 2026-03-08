@@ -6,6 +6,7 @@ import { ResumeData, getFullName } from "@/utils/resumeTypes";
 import { validateFile, extractTextFromFile } from "@/utils/fileExtraction";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 interface Props {
   open: boolean;
@@ -23,6 +24,7 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
   const [extractedData, setExtractedData] = useState<ResumeData | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   const reset = () => {
     setStep("upload");
@@ -49,7 +51,6 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
     setStep("extracting");
 
     try {
-      // Step 1: Extract text from file
       const text = await extractTextFromFile(selectedFile);
 
       if (!text || text.trim().length < 20) {
@@ -58,22 +59,13 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
 
       setStep("parsing");
 
-      // Step 2: Send to AI for parsing
       const { data: result, error: fnError } = await supabase.functions.invoke("parse-cv", {
         body: { text },
       });
 
-      if (fnError) {
-        throw new Error(fnError.message || "Failed to parse CV");
-      }
-
-      if (result?.error) {
-        throw new Error(result.error);
-      }
-
-      if (!result?.data) {
-        throw new Error("No data returned from parser");
-      }
+      if (fnError) throw new Error(fnError.message || "Failed to parse CV");
+      if (result?.error) throw new Error(result.error);
+      if (!result?.data) throw new Error("No data returned from parser");
 
       setExtractedData(result.data);
       setStep("review");
@@ -99,7 +91,7 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
   const handleConfirm = () => {
     if (extractedData) {
       onDataExtracted(extractedData);
-      toast({ title: "CV imported successfully!", description: "Your data has been filled in. Review and edit as needed." });
+      toast({ title: t("import_toast_title"), description: t("import_toast_desc") });
       handleClose(false);
     }
   };
@@ -118,17 +110,14 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[520px] p-0 overflow-hidden">
-        {/* Upload Step */}
         {step === "upload" && (
           <div className="p-6 space-y-5">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-lg">
                 <Sparkles className="w-5 h-5 text-primary" />
-                Import Existing CV
+                {t("import_title")}
               </DialogTitle>
-              <DialogDescription>
-                Upload your CV and we'll automatically extract your information using AI.
-              </DialogDescription>
+              <DialogDescription>{t("import_desc")}</DialogDescription>
             </DialogHeader>
 
             <div
@@ -159,35 +148,30 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
                 </div>
                 <div>
                   <p className="font-medium text-sm">
-                    {dragOver ? "Drop your file here" : "Drag & drop your CV here"}
+                    {dragOver ? t("import_drop") : t("import_drag")}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    or click to browse
-                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">{t("import_browse")}</p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-1.5 mt-1">
-                  {["PDF", "DOCX", "JPG", "PNG"].map((t) => (
-                    <span key={t} className="px-2 py-0.5 rounded-md bg-secondary text-[10px] font-medium text-muted-foreground">
-                      {t}
+                  {["PDF", "DOCX", "JPG", "PNG"].map((tp) => (
+                    <span key={tp} className="px-2 py-0.5 rounded-md bg-secondary text-[10px] font-medium text-muted-foreground">
+                      {tp}
                     </span>
                   ))}
                 </div>
-                <p className="text-[11px] text-muted-foreground">Max 10MB</p>
+                <p className="text-[11px] text-muted-foreground">{t("import_max")}</p>
               </div>
             </div>
 
             {hasExistingData && (
               <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800">
                 <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                <p className="text-xs text-amber-700 dark:text-amber-400">
-                  Importing a CV will replace your current data. Make sure to save any work first.
-                </p>
+                <p className="text-xs text-amber-700 dark:text-amber-400">{t("import_warning")}</p>
               </div>
             )}
           </div>
         )}
 
-        {/* Extracting / Parsing Steps */}
         {(step === "extracting" || step === "parsing") && (
           <div className="p-6 flex flex-col items-center gap-5 py-12">
             <div className="relative">
@@ -197,17 +181,15 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
             </div>
             <div className="text-center space-y-1.5">
               <p className="font-semibold text-base">
-                {step === "extracting" ? "Extracting text..." : "Analyzing with AI..."}
+                {step === "extracting" ? t("import_extracting") : t("import_analyzing")}
               </p>
               <p className="text-sm text-muted-foreground">
                 {step === "extracting"
-                  ? `Reading ${file?.name}`
-                  : "Detecting sections, dates, and skills"
+                  ? `${t("import_reading")} ${file?.name}`
+                  : t("import_detecting")
                 }
               </p>
             </div>
-
-            {/* Progress dots */}
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-primary" />
               <div className={`w-8 h-0.5 ${step === "parsing" ? "bg-primary" : "bg-border"} transition-colors`} />
@@ -216,17 +198,14 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
           </div>
         )}
 
-        {/* Review Step */}
         {step === "review" && extractedData && (
           <div className="p-6 space-y-5">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-lg">
                 <CheckCircle2 className="w-5 h-5 text-green-600" />
-                Data Extracted Successfully
+                {t("import_success")}
               </DialogTitle>
-              <DialogDescription>
-                Review the extracted information before importing.
-              </DialogDescription>
+              <DialogDescription>{t("import_review")}</DialogDescription>
             </DialogHeader>
 
             <div className="space-y-2">
@@ -244,39 +223,36 @@ const CVImportModal = ({ open, onOpenChange, onDataExtracted, hasExistingData }:
               )}
             </div>
 
-            <p className="text-xs text-muted-foreground">
-              You can edit all fields after import.
-            </p>
+            <p className="text-xs text-muted-foreground">{t("import_edit_after")}</p>
 
             <div className="flex gap-2">
               <Button variant="outline" className="flex-1" onClick={() => handleClose(false)}>
-                Cancel
+                {t("import_cancel")}
               </Button>
               <Button className="flex-1" onClick={handleConfirm}>
                 <FileText className="w-4 h-4 mr-1.5" />
-                Import Data
+                {t("import_confirm")}
               </Button>
             </div>
           </div>
         )}
 
-        {/* Error Step */}
         {step === "error" && (
           <div className="p-6 space-y-5">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-lg">
                 <AlertCircle className="w-5 h-5 text-destructive" />
-                Import Failed
+                {t("import_failed")}
               </DialogTitle>
               <DialogDescription>{error}</DialogDescription>
             </DialogHeader>
 
             <div className="flex gap-2">
               <Button variant="outline" className="flex-1" onClick={() => handleClose(false)}>
-                Cancel
+                {t("import_cancel")}
               </Button>
               <Button className="flex-1" onClick={reset}>
-                Try Again
+                {t("import_try_again")}
               </Button>
             </div>
           </div>

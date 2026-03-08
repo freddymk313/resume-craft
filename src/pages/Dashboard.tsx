@@ -6,6 +6,7 @@ import {
   FileText, Plus, MoreHorizontal, Clock, TrendingUp, Eye, Download,
   BarChart3, Target, Star, ArrowRight
 } from "lucide-react";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 const mockResumes = [
   { id: 1, name: "Product Designer Resume", template: "Modern Minimal", updated: "2 hours ago", score: 92, views: 48 },
@@ -19,31 +20,30 @@ const mockJobs = [
   { id: 3, title: "Design Lead", company: "Stripe", match: 82, location: "San Francisco, CA" },
 ];
 
-const quickStats = [
-  { icon: FileText, label: "Resumes", value: "3", change: "+1 this week" },
-  { icon: Eye, label: "Total Views", value: "208", change: "+24 today" },
-  { icon: Target, label: "Avg. Score", value: "86%", change: "+5% improvement" },
-  { icon: Download, label: "Downloads", value: "12", change: "+3 this week" },
-];
-
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const quickStats = [
+    { icon: FileText, label: t("dashboard_resumes"), value: "3", change: t("dashboard_stat_resumes_change") },
+    { icon: Eye, label: t("dashboard_total_views"), value: "208", change: t("dashboard_stat_views_change") },
+    { icon: Target, label: t("dashboard_avg_score"), value: "86%", change: t("dashboard_stat_score_change") },
+    { icon: Download, label: t("dashboard_downloads"), value: "12", change: t("dashboard_stat_downloads_change") },
+  ];
 
   return (
     <DashboardLayout>
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Welcome */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="font-display text-2xl font-bold tracking-tight">Welcome back, Alex 👋</h1>
-            <p className="text-sm text-muted-foreground mt-1">Here's what's happening with your resumes.</p>
+            <h1 className="font-display text-2xl font-bold tracking-tight">{t("dashboard_welcome")}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{t("dashboard_subtitle")}</p>
           </div>
           <Button onClick={() => navigate("/builder")} className="gap-1.5 shrink-0">
-            <Plus className="w-4 h-4" /> Create New Resume
+            <Plus className="w-4 h-4" /> {t("dashboard_create_new")}
           </Button>
         </div>
 
-        {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {quickStats.map((stat, i) => (
             <motion.div
@@ -64,14 +64,12 @@ const Dashboard = () => {
           ))}
         </div>
 
-        {/* Resumes & Jobs */}
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Resumes */}
           <div className="lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display font-semibold text-base">Recent Resumes</h2>
+              <h2 className="font-display font-semibold text-base">{t("dashboard_recent")}</h2>
               <Button variant="ghost" size="sm" className="text-xs text-muted-foreground">
-                View all <ArrowRight className="w-3 h-3 ml-1" />
+                {t("dashboard_view_all")} <ArrowRight className="w-3 h-3 ml-1" />
               </Button>
             </div>
             <div className="space-y-3">
@@ -93,11 +91,11 @@ const Dashboard = () => {
                   </div>
                   <div className="hidden sm:flex items-center gap-4">
                     <div className="text-center">
-                      <p className="text-xs text-muted-foreground">Score</p>
+                      <p className="text-xs text-muted-foreground">{t("dashboard_score")}</p>
                       <p className={`text-sm font-bold ${resume.score >= 90 ? "text-green-600" : resume.score >= 80 ? "text-primary" : "text-amber-600"}`}>{resume.score}%</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-xs text-muted-foreground">Views</p>
+                      <p className="text-xs text-muted-foreground">{t("dashboard_views")}</p>
                       <p className="text-sm font-semibold">{resume.views}</p>
                     </div>
                   </div>
@@ -109,12 +107,11 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Job Matches */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display font-semibold text-base">Top Job Matches</h2>
+              <h2 className="font-display font-semibold text-base">{t("dashboard_top_jobs")}</h2>
               <Button variant="ghost" size="sm" className="text-xs text-muted-foreground">
-                View all <ArrowRight className="w-3 h-3 ml-1" />
+                {t("dashboard_view_all")} <ArrowRight className="w-3 h-3 ml-1" />
               </Button>
             </div>
             <div className="space-y-3">
@@ -134,7 +131,7 @@ const Dashboard = () => {
                     <span className={`text-xs font-bold px-2 py-1 rounded-full ${
                       job.match >= 90 ? "bg-green-100 text-green-700" : "bg-primary/10 text-primary"
                     }`}>
-                      {job.match}% match
+                      {job.match}% {t("dashboard_match")}
                     </span>
                   </div>
                 </motion.div>
