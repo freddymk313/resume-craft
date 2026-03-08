@@ -168,11 +168,11 @@ const Builder = () => {
       <div className="flex-1 flex flex-col sm:flex-row min-h-0">
         {/* Editor Panel — 45% */}
         <div
-          className={`w-full sm:w-[45%] shrink-0 border-r border-border overflow-y-auto ${
-            mobileView === "preview" ? "hidden sm:block" : ""
+          className={`sm:w-[45%] shrink-0 border-r border-border overflow-y-auto ${
+            mobileView === "preview" ? "hidden sm:block" : "flex-1 min-h-0"
           }`}
         >
-          <div className="p-6 lg:p-8 max-w-[560px] mx-auto">
+          <div className="p-4 sm:p-6 lg:p-8 max-w-[560px] mx-auto pb-20 sm:pb-8">
             <ResumeForm data={data} onChange={handleChange} />
           </div>
         </div>
