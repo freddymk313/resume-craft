@@ -26,6 +26,7 @@ const pdfComponents: Record<string, React.FC<{ data: ResumeData }>> = {
   "clean-professional": CleanProfessionalPDF,
   "corporate-classic": CorporateClassicPDF,
   "professional-dark-sidebar": ProfessionalDarkSidebarPDF,
+  "blue-card-professional": BlueCardProfessionalPDF,
 };
 
 const DownloadButton = ({ fileName = "resume.pdf", data, template }: Props) => {

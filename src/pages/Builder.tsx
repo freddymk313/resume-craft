@@ -83,6 +83,7 @@ const Builder = () => {
     { id: "clean-professional", label: "Clean" },
     { id: "corporate-classic", label: "Corporate" },
     { id: "professional-dark-sidebar", label: "Dark Pro" },
+    { id: "blue-card-professional", label: "Blue Card" },
   ];
 
   const currentLabel = templateOptions.find(t => t.id === template)?.label || "Template";

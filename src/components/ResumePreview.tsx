@@ -7,6 +7,7 @@ import ClassicBordered from "./templates/ClassicBordered";
 import CleanProfessional from "./templates/CleanProfessional";
 import CorporateClassic from "./templates/CorporateClassic";
 import ProfessionalDarkSidebar from "./templates/ProfessionalDarkSidebar";
+import BlueCardProfessional from "./templates/BlueCardProfessional";
 
 interface Props {
   data: ResumeData;
@@ -23,6 +24,7 @@ const ResumePreview = ({ data, template }: Props) => {
     "clean-professional": CleanProfessional,
     "corporate-classic": CorporateClassic,
     "professional-dark-sidebar": ProfessionalDarkSidebar,
+    "blue-card-professional": BlueCardProfessional,
   }[template];
 
   return (
