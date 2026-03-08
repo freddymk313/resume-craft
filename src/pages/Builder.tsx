@@ -1,13 +1,13 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ResumeData, TemplateName, defaultResumeData, getFullName } from "@/utils/resumeTypes";
 import { saveResumeData, loadResumeData, loadTemplate, saveTemplate } from "@/utils/storage";
 import ResumeForm from "@/components/ResumeForm";
-import ResumePreview from "@/components/ResumePreview";
+import PreviewContainer from "@/components/PreviewContainer";
 import DownloadButton from "@/components/DownloadButton";
 import CVImportModal from "@/components/CVImportModal";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Eye, Edit3, FileText, ChevronDown, ChevronLeft, ChevronRight, Upload } from "lucide-react";
+import { ArrowLeft, Eye, Edit3, FileText, ChevronDown, Upload } from "lucide-react";
 import { useTranslation } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
