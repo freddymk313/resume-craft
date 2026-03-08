@@ -8,6 +8,7 @@ import CleanProfessional from "./templates/CleanProfessional";
 import CorporateClassic from "./templates/CorporateClassic";
 import ProfessionalDarkSidebar from "./templates/ProfessionalDarkSidebar";
 import BlueCardProfessional from "./templates/BlueCardProfessional";
+import MinimalistEngineer from "./templates/MinimalistEngineer";
 
 interface Props {
   data: ResumeData;
