@@ -58,17 +58,17 @@ const PreviewContainer = memo(({ data, template }: Props) => {
   const handleScroll = useCallback(() => {
     if (scrollRef.current) {
       const scrollTop = scrollRef.current.scrollTop;
-      const scaledPageHeight = (A4_HEIGHT + PAGE_GAP) * scale;
-      const page = Math.floor(scrollTop / scaledPageHeight) + 1;
+      const scaledPageWithGap = A4_HEIGHT * scale + PAGE_GAP;
+      const page = Math.floor((scrollTop + scaledPageWithGap * 0.5) / scaledPageWithGap) + 1;
       setCurrentPage(Math.min(Math.max(1, page), totalPages));
     }
   }, [scale, totalPages]);
 
   const scrollToPage = useCallback((page: number) => {
     if (scrollRef.current) {
-      const scaledPageHeight = (A4_HEIGHT + PAGE_GAP) * scale;
+      const scaledPageWithGap = A4_HEIGHT * scale + PAGE_GAP;
       scrollRef.current.scrollTo({
-        top: (page - 1) * scaledPageHeight,
+        top: (page - 1) * scaledPageWithGap,
         behavior: "smooth",
       });
     }
@@ -78,7 +78,6 @@ const PreviewContainer = memo(({ data, template }: Props) => {
 
   return (
     <div ref={containerRef} className="relative flex-1 flex flex-col min-h-0">
-      {/* Scrollable area */}
       <div
         ref={scrollRef}
         onScroll={handleScroll}
@@ -86,44 +85,42 @@ const PreviewContainer = memo(({ data, template }: Props) => {
         style={{ backgroundColor: "hsl(var(--muted) / 0.5)" }}
       >
         <div className="flex flex-col items-center py-8 sm:py-10 px-4 sm:px-5">
-          {pages.map((pageIndex) => (
-            <div
-              key={pageIndex}
-              style={{
-                transform: `scale(${scale})`,
-                transformOrigin: "top center",
-                width: `${A4_WIDTH}px`,
-                height: `${A4_HEIGHT}px`,
-                marginBottom: pageIndex < totalPages - 1 ? `${PAGE_GAP * scale}px` : 0,
-                // Account for scale: actual rendered height is A4_HEIGHT * scale
-                // but transform doesn't affect layout, so we fix it
-                marginTop: pageIndex === 0 ? 0 : undefined,
-              }}
-              className="shrink-0"
-            >
+          {pages.map((pageIndex) => {
+            const scaledHeight = A4_HEIGHT * scale;
+            return (
               <div
-                className="bg-white overflow-hidden"
+                key={pageIndex}
                 style={{
-                  width: `${A4_WIDTH}px`,
-                  height: `${A4_HEIGHT}px`,
-                  borderRadius: "6px",
-                  boxShadow: "0 15px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04)",
+                  width: `${A4_WIDTH * scale}px`,
+                  height: `${scaledHeight}px`,
+                  marginBottom: pageIndex < totalPages - 1 ? `${PAGE_GAP}px` : 0,
                 }}
+                className="shrink-0 relative"
               >
                 <div
-                  ref={pageIndex === 0 ? contentRef : undefined}
+                  className="bg-white overflow-hidden absolute top-0 left-0"
                   style={{
-                    transform: `translateY(${-pageIndex * A4_HEIGHT}px)`,
+                    width: `${A4_WIDTH}px`,
+                    height: `${A4_HEIGHT}px`,
+                    borderRadius: "6px",
+                    boxShadow: "0 15px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04)",
+                    transform: `scale(${scale})`,
+                    transformOrigin: "top left",
                   }}
                 >
-                  <ResumePreview data={data} template={template} />
+                  <div
+                    ref={pageIndex === 0 ? contentRef : undefined}
+                    style={{
+                      transform: `translateY(${-pageIndex * A4_HEIGHT}px)`,
+                    }}
+                  >
+                    <ResumePreview data={data} template={template} />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
-        {/* Spacer so scaled content takes correct scroll space */}
-        <div style={{ height: `${Math.max(0, totalPages * A4_HEIGHT * scale + (totalPages - 1) * PAGE_GAP * scale - totalPages * A4_HEIGHT * scale)}px` }} />
       </div>
 
       {/* Page indicator */}
