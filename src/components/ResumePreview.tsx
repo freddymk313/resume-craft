@@ -6,6 +6,7 @@ import SimpleModel from "./templates/Crown";
 import ClassicBordered from "./templates/ClassicBordered";
 import CleanProfessional from "./templates/CleanProfessional";
 import CorporateClassic from "./templates/CorporateClassic";
+import ProfessionalDarkSidebar from "./templates/ProfessionalDarkSidebar";
 
 interface Props {
   data: ResumeData;
@@ -21,6 +22,7 @@ const ResumePreview = ({ data, template }: Props) => {
     "classic-bordered": ClassicBordered,
     "clean-professional": CleanProfessional,
     "corporate-classic": CorporateClassic,
+    "professional-dark-sidebar": ProfessionalDarkSidebar,
   }[template];
 
   return (
