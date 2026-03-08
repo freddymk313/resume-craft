@@ -26,6 +26,7 @@ const ResumePreview = ({ data, template }: Props) => {
     "corporate-classic": CorporateClassic,
     "professional-dark-sidebar": ProfessionalDarkSidebar,
     "blue-card-professional": BlueCardProfessional,
+    "minimalist-engineer": MinimalistEngineer,
   }[template];
 
   return (
