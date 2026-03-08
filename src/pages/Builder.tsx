@@ -131,9 +131,9 @@ const Builder = () => {
 
       {/* Content — Two Panel Layout */}
       <div className="flex-1 flex flex-col sm:flex-row min-h-0">
-        {/* Editor Panel — 45% */}
+        {/* Editor Panel — 40% */}
         <div
-          className={`sm:w-[45%] shrink-0 border-r border-border overflow-y-auto ${
+          className={`sm:w-[40%] shrink-0 border-r border-border overflow-y-auto ${
             mobileView === "preview" ? "hidden sm:block" : "flex-1 min-h-0"
           }`}
         >
