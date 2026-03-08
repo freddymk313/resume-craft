@@ -10,6 +10,7 @@ import ClassicBorderedPDF from "./pdf-templates/ClassicBorderedPDF";
 import CleanProfessionalPDF from "./pdf-templates/CleanProfessionalPDF";
 import CorporateClassicPDF from "./pdf-templates/CorporateClassicPDF";
 import ProfessionalDarkSidebarPDF from "./pdf-templates/ProfessionalDarkSidebarPDF";
+import BlueCardProfessionalPDF from "./pdf-templates/BlueCardProfessionalPDF";
 
 interface Props {
   fileName?: string;
