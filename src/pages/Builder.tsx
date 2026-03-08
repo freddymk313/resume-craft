@@ -25,37 +25,6 @@ const Builder = () => {
     setTemplate(loadTemplate());
   }, []);
 
-  useEffect(() => {
-    const updateScale = () => {
-      if (previewContainerRef.current) {
-        const containerWidth = previewContainerRef.current.clientWidth;
-        const padding = 80;
-        const availableWidth = containerWidth - padding;
-        const scale = Math.min(availableWidth / A4_WIDTH, 0.85);
-        setPreviewScale(Math.max(scale, 0.4));
-      }
-    };
-    updateScale();
-    window.addEventListener("resize", updateScale);
-    return () => window.removeEventListener("resize", updateScale);
-  }, []);
-
-  useEffect(() => {
-    const checkPages = () => {
-      if (resumeContentRef.current) {
-        const contentHeight = resumeContentRef.current.scrollHeight;
-        const pages = Math.max(1, Math.ceil(contentHeight / A4_HEIGHT));
-        setTotalPages(pages);
-        if (currentPage > pages) setCurrentPage(pages);
-      }
-    };
-    checkPages();
-    const observer = new MutationObserver(checkPages);
-    if (resumeContentRef.current) {
-      observer.observe(resumeContentRef.current, { childList: true, subtree: true, characterData: true });
-    }
-    return () => observer.disconnect();
-  }, [data, template, currentPage]);
 
   const handleChange = useCallback((newData: ResumeData) => {
     setData(newData);
