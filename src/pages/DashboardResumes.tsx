@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { FileText, Plus, Clock, MoreHorizontal, Download, Trash2, Copy, Eye } from "lucide-react";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 const resumes = [
   { id: 1, name: "Product Designer Resume", template: "Modern Minimal", updated: "2 hours ago", score: 92, downloads: 5 },
@@ -13,22 +14,22 @@ const resumes = [
 
 const DashboardResumes = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <DashboardLayout>
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="font-display text-2xl font-bold tracking-tight">My Resumes</h1>
-            <p className="text-sm text-muted-foreground mt-1">Manage and edit all your resumes in one place.</p>
+            <h1 className="font-display text-2xl font-bold tracking-tight">{t("resumes_title")}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{t("resumes_desc")}</p>
           </div>
           <Button onClick={() => navigate("/builder")} className="gap-1.5">
-            <Plus className="w-4 h-4" /> New Resume
+            <Plus className="w-4 h-4" /> {t("resumes_new")}
           </Button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Create New Card */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -38,11 +39,10 @@ const DashboardResumes = () => {
             <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
               <Plus className="w-6 h-6 text-primary" />
             </div>
-            <p className="font-display font-semibold text-sm">Create New Resume</p>
-            <p className="text-xs text-muted-foreground text-center">Start from scratch or import your CV</p>
+            <p className="font-display font-semibold text-sm">{t("resumes_create_new")}</p>
+            <p className="text-xs text-muted-foreground text-center">{t("resumes_create_desc")}</p>
           </motion.div>
 
-          {/* Resume Cards */}
           {resumes.map((resume, i) => (
             <motion.div
               key={resume.id}

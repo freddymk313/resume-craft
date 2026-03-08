@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { pdf } from "@react-pdf/renderer";
 import { ResumeData, TemplateName } from "@/utils/resumeTypes";
+import { useTranslation } from "@/contexts/LanguageContext";
 import ModernMinimalPDF from "./pdf-templates/ModernMinimalPDF";
 import SidebarProfessionalPDF from "./pdf-templates/SidebarProfessionalPDF";
 import CreativeAccentPDF from "./pdf-templates/CreativeAccentPDF";
@@ -33,6 +34,7 @@ const pdfComponents: Record<string, React.FC<{ data: ResumeData }>> = {
 
 const DownloadButton = ({ fileName = "resume.pdf", data, template }: Props) => {
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const handleDownload = async () => {
     setLoading(true);
@@ -57,7 +59,7 @@ const DownloadButton = ({ fileName = "resume.pdf", data, template }: Props) => {
   return (
     <Button onClick={handleDownload} disabled={loading} className="gap-2">
       {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-      {loading ? "Generating..." : "Download PDF"}
+      {loading ? t("builder_generating") : t("builder_download_pdf")}
     </Button>
   );
 };

@@ -7,20 +7,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-const navItems = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
-  { icon: FileText, label: "My Resumes", path: "/dashboard/resumes" },
-  { icon: Briefcase, label: "Job Matches", path: "/dashboard/jobs" },
-  { icon: Bookmark, label: "Saved Jobs", path: "/dashboard/saved" },
-  { icon: MessageSquare, label: "Messages", path: "/dashboard/messages" },
-  { icon: Bell, label: "Notifications", path: "/dashboard/notifications" },
-];
-
-const bottomItems = [
-  { icon: Settings, label: "Settings", path: "/dashboard/settings" },
-  { icon: HelpCircle, label: "Help & Support", path: "/dashboard/help" },
-];
+import { useTranslation } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 interface Props {
   children: React.ReactNode;
@@ -31,6 +19,21 @@ const DashboardLayout = ({ children }: Props) => {
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { t } = useTranslation();
+
+  const navItems = [
+    { icon: LayoutDashboard, label: t("sidebar_dashboard"), path: "/dashboard" },
+    { icon: FileText, label: t("sidebar_my_resumes"), path: "/dashboard/resumes" },
+    { icon: Briefcase, label: t("sidebar_job_matches"), path: "/dashboard/jobs" },
+    { icon: Bookmark, label: t("sidebar_saved_jobs"), path: "/dashboard/saved" },
+    { icon: MessageSquare, label: t("sidebar_messages"), path: "/dashboard/messages" },
+    { icon: Bell, label: t("sidebar_notifications"), path: "/dashboard/notifications" },
+  ];
+
+  const bottomItems = [
+    { icon: Settings, label: t("sidebar_settings"), path: "/dashboard/settings" },
+    { icon: HelpCircle, label: t("sidebar_help"), path: "/dashboard/help" },
+  ];
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -101,7 +104,7 @@ const DashboardLayout = ({ children }: Props) => {
               <div className="min-w-0">
                 <p className="text-sm font-medium truncate">Alex Johnson</p>
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
-                  <Crown className="w-3 h-3 text-primary" /> Premium Plan
+                  <Crown className="w-3 h-3 text-primary" /> {t("sidebar_premium")}
                 </p>
               </div>
             </div>
@@ -111,7 +114,7 @@ const DashboardLayout = ({ children }: Props) => {
               className="w-full text-xs border-primary/20 text-primary hover:bg-primary/10"
               onClick={() => navigate("/dashboard/settings")}
             >
-              Upgrade Plan
+              {t("sidebar_upgrade")}
             </Button>
           </div>
         </div>
@@ -151,14 +154,15 @@ const DashboardLayout = ({ children }: Props) => {
             <div className="hidden sm:flex items-center gap-2 bg-secondary rounded-lg px-3 py-2 w-64">
               <Search className="w-4 h-4 text-muted-foreground" />
               <input
-                placeholder="Search..."
+                placeholder={t("sidebar_search")}
                 className="bg-transparent text-sm outline-none w-full placeholder:text-muted-foreground"
               />
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             <Button size="sm" onClick={() => navigate("/builder")} className="gap-1.5">
-              <Upload className="w-3.5 h-3.5" /> New Resume
+              <Upload className="w-3.5 h-3.5" /> {t("sidebar_new_resume")}
             </Button>
             <button className="relative p-2 rounded-lg hover:bg-secondary transition-colors">
               <Bell className="w-4 h-4 text-muted-foreground" />
